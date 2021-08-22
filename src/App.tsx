@@ -6,6 +6,7 @@ import "./App.css";
 import Auth from "./components/Auth";
 import Feed from "./components/Feed";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   const user = useSelector(selectUser);
@@ -39,6 +40,7 @@ const App: React.FC = () => {
       ) : (
         <Auth />
       )}
+      <Footer />
     </>
   );
 };
