@@ -47,15 +47,6 @@ const Feed: React.FC = () => {
   }, []);
   return (
     <div>
-      {/* 仮表示 ユーザーアバターとサインアウトボタン */}
-      <button
-        onClick={async () => {
-          await auth.signOut();
-        }}
-      >
-        <img src={user.photoUrl} alt="" width="48" />
-      </button>
-
       <TweetInput />
 
       {posts[0]?.id && (
