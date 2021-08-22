@@ -5,6 +5,7 @@ import { auth } from "./firebase";
 import "./App.css";
 import Auth from "./components/Auth";
 import Feed from "./components/Feed";
+import Header from "./components/Header";
 
 const App: React.FC = () => {
   const user = useSelector(selectUser);
@@ -30,6 +31,7 @@ const App: React.FC = () => {
   }, [dispatch]);
   return (
     <>
+      <Header />
       {user.uid ? (
         <div className={"app"}>
           <Feed />
