@@ -79,7 +79,7 @@ const TweetInput: React.FC = () => {
   };
   return (
     <>
-      <form onSubmit={sendTweet}>
+      <form onSubmit={sendTweet} className="text-black">
         <p>
           <input
             placeholder="カテゴリ"

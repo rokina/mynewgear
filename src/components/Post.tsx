@@ -98,13 +98,11 @@ const Post: React.FC<PROPS> = (props) => {
     // });
   };
   return (
-    <div>
+    <>
       {/* <div>
         <Avatar src={props.avatar} />
       </div> */}
-      <div>
-        <div>
-          {/* <div>
+      {/* <div>
             <h3>
               <span>@{props.username}</span>
               <span>
@@ -112,21 +110,29 @@ const Post: React.FC<PROPS> = (props) => {
               </span>
             </h3>
           </div> */}
-          <div>
-            <p>
-              @{props.username}/{props.category}/{props.brandName}/
-              {props.gearName}/{props.text}/
-              {new Date(props.timestamp?.toDate()).toLocaleString()}
-            </p>
+      {/* <p>
+        @{props.username}/{props.category}/{props.brandName}/{props.gearName}/
+        {props.text}/{new Date(props.timestamp?.toDate()).toLocaleString()}
+      </p> */}
+      <li>
+        <a
+          href="#"
+          className="inline-block relative w-72 rounded-2xl overflow-hidden"
+        >
+          {props.image && (
+            <img src={props.image} alt="" className="object-cover w-72 h-72" />
+          )}
+          <span className="absolute bottom-2 right-2">#{props.category}</span>
+          <div className="absolute top-0 w-full h-full opacity-0 hover:opacity-100 transition hover:bg-black hover:bg-opacity-50 flex items-center">
+            <div className="px-5">
+              <span className="text-xl block break-all">
+                # {props.brandName}
+              </span>
+              <span className="text-lg block break-all">{props.gearName}</span>
+            </div>
           </div>
-        </div>
-        {props.image && (
-          <div>
-            <img src={props.image} alt="" width={300} />
-          </div>
-        )}
 
-        <MessageIcon onClick={() => setOpenComments(!openComments)} />
+          {/* <MessageIcon onClick={() => setOpenComments(!openComments)} />
         <button
           onClick={() => {
             // setCheck(!check);
@@ -134,41 +140,42 @@ const Post: React.FC<PROPS> = (props) => {
           }}
         >
           いいね {props.likeCount}
-        </button>
+        </button> */}
 
-        {openComments && (
-          <>
-            {comments.map((com) => (
-              <div key={com.id}>
-                <Avatar src={com.avatar} />
+          {openComments && (
+            <>
+              {comments.map((com) => (
+                <div key={com.id}>
+                  <Avatar src={com.avatar} />
 
-                <span>@{com.username}</span>
-                <span>{com.text} </span>
-                <span>
-                  {new Date(com.timestamp?.toDate()).toLocaleString()}
-                </span>
-              </div>
-            ))}
+                  <span>@{com.username}</span>
+                  <span>{com.text} </span>
+                  <span>
+                    {new Date(com.timestamp?.toDate()).toLocaleString()}
+                  </span>
+                </div>
+              ))}
 
-            <form onSubmit={newComment}>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Type new comment..."
-                  value={comment}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setComment(e.target.value)
-                  }
-                />
-                <button disabled={!comment} type="submit">
-                  <SendIcon />
-                </button>
-              </div>
-            </form>
-          </>
-        )}
-      </div>
-    </div>
+              <form onSubmit={newComment}>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Type new comment..."
+                    value={comment}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setComment(e.target.value)
+                    }
+                  />
+                  <button disabled={!comment} type="submit">
+                    <SendIcon />
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+        </a>
+      </li>
+    </>
   );
 };
 
