@@ -70,6 +70,28 @@ const Feed: React.FC = () => {
           </ul>
         )}
       </section>
+      <section className="mt-8 mb-8">
+        <h2 className="text-lg">#guitar</h2>
+        {posts[0]?.id && (
+          <ul className="flex flex-wrap mt-2 space-x-4">
+            {posts.map((post) => (
+              <Post
+                key={post.id}
+                postId={post.id}
+                avatar={post.avatar}
+                image={post.image}
+                category={post.category}
+                text={post.text}
+                brandName={post.brandName}
+                gearName={post.gearName}
+                timestamp={post.timestamp}
+                username={post.username}
+                likeCount={post.likeCount}
+              />
+            ))}
+          </ul>
+        )}
+      </section>
     </>
   );
 };
