@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
-import { useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
+import { db } from "../firebase";
+// import { useSelector } from "react-redux";
+// import { selectUser } from "../features/userSlice";
 import TweetInput from "./TweetInput";
 import Post from "./Post";
 
 const Feed: React.FC = () => {
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const [posts, setPosts] = useState([
     {
       id: "",
@@ -51,7 +51,7 @@ const Feed: React.FC = () => {
       <section className="mt-5">
         <h2 className="text-lg">#mynewgear</h2>
         {posts[0]?.id && (
-          <ul className="flex flex-wrap mt-2 space-x-4">
+          <ul className="flex flex-wrap -m-2 mt-0">
             {posts.map((post) => (
               <Post
                 key={post.id}
@@ -73,7 +73,7 @@ const Feed: React.FC = () => {
       <section className="mt-8 mb-8">
         <h2 className="text-lg">#guitar</h2>
         {posts[0]?.id && (
-          <ul className="flex flex-wrap mt-2 space-x-4">
+          <ul className="flex flex-wrap -m-2 mt-0">
             {posts.map((post) => (
               <Post
                 key={post.id}
