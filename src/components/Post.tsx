@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-// import { db } from "../firebase";
-// import firebase from "firebase/app";
-// import { useSelector } from "react-redux";
-// import { selectUser } from "../features/userSlice";
-import { Modal, Backdrop, Fade } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core/styles";
-// import MessageIcon from "@material-ui/icons/Message";
-// import SendIcon from "@material-ui/icons/Send";
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
+import firebase from "firebase/app";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { Modal, Backdrop, Fade, Avatar } from "@material-ui/core";
+import Icon from "../img/icon_user.svg";
 
 interface PROPS {
   postId: string;
@@ -21,13 +19,13 @@ interface PROPS {
   likeCount: number;
 }
 
-// interface COMMENT {
-//   id: string;
-//   avatar: string;
-//   text: string;
-//   timestamp: any;
-//   username: string;
-// }
+interface COMMENT {
+  id: string;
+  avatar: string;
+  text: string;
+  timestamp: any;
+  username: string;
+}
 
 function getModalStyle() {
   const width = 1400;
@@ -54,55 +52,54 @@ function getModalStyle() {
 
 const Post: React.FC<PROPS> = (props) => {
   // const classes = useStyles();
-  // const user = useSelector(selectUser);
+  const user = useSelector(selectUser);
   // const [likeCount, setLikeCount] = useState(props.likeCount);
   // const [check, setCheck] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  // const [openComments, setOpenComments] = useState(false);
-  // const [comment, setComment] = useState("");
-  // const [comments, setComments] = useState<COMMENT[]>([
-  //   {
-  //     id: "",
-  //     avatar: "",
-  //     text: "",
-  //     username: "",
-  //     timestamp: null,
-  //   },
-  // ]);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<COMMENT[]>([
+    {
+      id: "",
+      avatar: "",
+      text: "",
+      username: "",
+      timestamp: null,
+    },
+  ]);
 
-  // useEffect(() => {
-  //   const unSub = db
-  //     .collection("posts")
-  //     .doc(props.postId)
-  //     .collection("comments")
-  //     .orderBy("timestamp", "desc")
-  //     .onSnapshot((snapshot) => {
-  //       setComments(
-  //         snapshot.docs.map((doc) => ({
-  //           id: doc.id,
-  //           avatar: doc.data().avatar,
-  //           text: doc.data().text,
-  //           username: doc.data().username,
-  //           timestamp: doc.data().timestamp,
-  //         }))
-  //       );
-  //     });
+  useEffect(() => {
+    const unSub = db
+      .collection("posts")
+      .doc(props.postId)
+      .collection("comments")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setComments(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            text: doc.data().text,
+            username: doc.data().username,
+            timestamp: doc.data().timestamp,
+          }))
+        );
+      });
 
-  //   return () => {
-  //     unSub();
-  //   };
-  // }, [props.postId]);
+    return () => {
+      unSub();
+    };
+  }, [props.postId]);
 
-  // const newComment = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   db.collection("posts").doc(props.postId).collection("comments").add({
-  //     avatar: user.photoUrl,
-  //     text: comment,
-  //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  //     username: user.displayName,
-  //   });
-  //   setComment("");
-  // };
+  const newComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    db.collection("posts").doc(props.postId).collection("comments").add({
+      avatar: user.photoUrl,
+      text: comment,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      username: user.displayName,
+    });
+    setComment("");
+  };
 
   // const likeButton = () => {
   //   console.log("likeButton");
@@ -193,7 +190,7 @@ const Post: React.FC<PROPS> = (props) => {
                       <p className="text-gray-400 text-x">@rokiroki</p>
                     </div>
                   </div>
-                  <div className="mt-5">
+                  <div className="mt-5 pb-1 border-b border-gray-400">
                     <div className="text-white text-2xl">
                       <p>{props.brandName}</p>
                       <p>{props.gearName}</p>
@@ -203,13 +200,62 @@ const Post: React.FC<PROPS> = (props) => {
                       {new Date(props.timestamp?.toDate()).toLocaleString()}
                     </p>
                   </div>
+                  {comments && (
+                    <>
+                      {comments.map((com) => (
+                        <div
+                          key={com.id}
+                          className="text-white flex pt-3 pb-2 border-b border-gray-400"
+                        >
+                          <Avatar src={com.avatar} />
+
+                          <div className="ml-2">
+                            <div className="flex items-center">
+                              <span className="text-base">{com.username}</span>
+                              <span className="text-xs ml-1 text-gray-400">
+                                {/* TODO: ユーザーID表示する */}
+                                @user_id
+                              </span>
+                              <span className="text-xs ml-1 text-gray-400">
+                                {new Date(
+                                  com.timestamp?.toDate()
+                                ).toLocaleString()}
+                              </span>
+                            </div>
+                            <span>{com.text}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  <form onSubmit={newComment}>
+                    <div className="flex items-center mt-5">
+                      <Avatar src={user.photoUrl} />
+                      <textarea
+                        name=""
+                        id=""
+                        placeholder="返信を投稿"
+                        className="bg-transparent rounded border border-gray-400 ml-2 px-2 py-1 text-white w-72"
+                        value={comment}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                          setComment(e.target.value)
+                        }
+                      ></textarea>
+                      <button
+                        className="text-white text-xs bg-blue-500 rounded-xl py-1 px-2 ml-2"
+                        disabled={!comment}
+                        type="submit"
+                      >
+                        返信
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </Fade>
           </Modal>
 
-          {/* <MessageIcon onClick={() => setOpenComments(!openComments)} />
-        <button
+          {/* <button
           onClick={() => {
             // setCheck(!check);
             likeButton();
@@ -217,38 +263,6 @@ const Post: React.FC<PROPS> = (props) => {
         >
           いいね {props.likeCount}
         </button> */}
-
-          {/* {openComments && (
-            <>
-              {comments.map((com) => (
-                <div key={com.id}>
-                  <Avatar src={com.avatar} />
-
-                  <span>@{com.username}</span>
-                  <span>{com.text} </span>
-                  <span>
-                    {new Date(com.timestamp?.toDate()).toLocaleString()}
-                  </span>
-                </div>
-              ))}
-
-              <form onSubmit={newComment}>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Type new comment..."
-                    value={comment}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setComment(e.target.value)
-                    }
-                  />
-                  <button disabled={!comment} type="submit">
-                    <SendIcon />
-                  </button>
-                </div>
-              </form>
-            </>
-          )} */}
         </a>
       </li>
     </>
