@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { storage, db } from "../firebase";
-import firebase from "firebase/app";
-import { useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
 import { Button, IconButton } from "@material-ui/core";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import firebase from "firebase/app";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { db, storage } from "../firebase";
 // import { Category } from "@material-ui/icons";
 
 const TweetInput: React.FC = () => {
@@ -54,6 +54,7 @@ const TweetInput: React.FC = () => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 username: user.displayName,
                 likeCount: 0,
+                bookmarkCount: 0,
               });
             });
         }
@@ -69,6 +70,7 @@ const TweetInput: React.FC = () => {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         username: user.displayName,
         likeCount: 0,
+        bookmarkCount: 0,
       });
     }
     setTweetImage(null);
