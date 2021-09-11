@@ -34,9 +34,9 @@ const App: React.FC = () => {
     <>
       <Header />
       {user.uid ? (
-        <div className={"app"}>
+        <main className="bg-gray-800 text-white px-24 py-12">
           <Feed />
-        </div>
+        </main>
       ) : (
         <Auth />
       )}

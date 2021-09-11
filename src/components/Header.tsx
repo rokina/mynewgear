@@ -16,16 +16,16 @@ const Header: React.FC = () => {
         <nav>
           <ul className="text-white flex items-center space-x-4 text-base">
             <li>
-              <a href="#">#guitar</a>
+              <a href="/?cat=guitar">#guitar</a>
             </li>
             <li>
-              <a href="#">#bass</a>
+              <a href="#/?cat=bass">#bass</a>
             </li>
             <li>
-              <a href="#">#other</a>
+              <a href="/?cat=other">#other</a>
             </li>
             <li className="w-9 rounded-full overflow-hidden">
-              <a href="#">
+              <a href="/mypage/">
                 <img
                   src={user.photoUrl ? user.photoUrl : Icon}
                   alt=""
