@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../firebase";
+import { Avatar, Backdrop, Fade, Modal } from "@material-ui/core";
 import firebase from "firebase/app";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
-import { Modal, Backdrop, Fade, Avatar } from "@material-ui/core";
-import Icon from "../img/icon_user.svg";
+import { db } from "../firebase";
 
 interface PROPS {
   postId: string;
@@ -42,19 +41,10 @@ function getModalStyle() {
   };
 }
 
-// const useStyles = makeStyles((theme) => ({
-//   small: {
-//     width: theme.spacing(3),
-//     height: theme.spacing(3),
-//     marginRight: theme.spacing(1),
-//   },
-// }));
-
 const Post: React.FC<PROPS> = (props) => {
-  // const classes = useStyles();
   const user = useSelector(selectUser);
-  // const [likeCount, setLikeCount] = useState(props.likeCount);
-  // const [check, setCheck] = useState(false);
+  const [likeCount, setLikeCount] = useState(props.likeCount);
+  const [likeState, setLikeState] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<COMMENT[]>([
@@ -90,6 +80,26 @@ const Post: React.FC<PROPS> = (props) => {
     };
   }, [props.postId]);
 
+  useEffect(() => {
+    db.collection("users")
+      .doc(user.uid)
+      .collection("likePosts")
+      .doc(props.postId)
+      .get()
+      .then((doc) => {
+        if (doc.data()?.post) {
+          console.log(doc.data()?.post);
+          setLikeState(true);
+        } else {
+          console.log("No such document!");
+          setLikeState(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [props.postId, user.uid]);
+
   const newComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     db.collection("posts").doc(props.postId).collection("comments").add({
@@ -101,15 +111,43 @@ const Post: React.FC<PROPS> = (props) => {
     setComment("");
   };
 
-  // const likeButton = () => {
-  //   console.log("likeButton");
-  //   let test = likeCount;
-  //   !check ? test++ : test--;
-  //   setLikeCount(test);
-  //   db.collection("posts").doc(props.postId).update({
-  //     likeCount: test,
-  //   });
-  // };
+  const likeSave = (state: boolean) => {
+    if (state) {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("likePosts")
+        .doc(props.postId)
+        .set({
+          post: props.postId,
+        });
+    } else {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("likePosts")
+        .doc(props.postId)
+        .delete();
+    }
+  };
+
+  const likeButton = () => {
+    if (!likeState) {
+      likeSave(true);
+      const newLikeCount = likeCount + 1;
+      setLikeState(true);
+      setLikeCount(newLikeCount);
+      db.collection("posts").doc(props.postId).update({
+        likeCount: newLikeCount,
+      });
+    } else {
+      likeSave(false);
+      const newLikeCount = likeCount - 1;
+      setLikeState(false);
+      setLikeCount(newLikeCount);
+      db.collection("posts").doc(props.postId).update({
+        likeCount: newLikeCount,
+      });
+    }
+  };
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -121,21 +159,6 @@ const Post: React.FC<PROPS> = (props) => {
 
   return (
     <>
-      {/* <div>
-        <Avatar src={props.avatar} />
-      </div> */}
-      {/* <div>
-            <h3>
-              <span>@{props.username}</span>
-              <span>
-                {new Date(props.timestamp?.toDate()).toLocaleString()}
-              </span>
-            </h3>
-          </div> */}
-      {/* <p>
-        @{props.username}/{props.category}/{props.brandName}/{props.gearName}/
-        {props.text}/{new Date(props.timestamp?.toDate()).toLocaleString()}
-      </p> */}
       <li className="m-2">
         <a
           href="#"
@@ -152,6 +175,38 @@ const Post: React.FC<PROPS> = (props) => {
                 # {props.brandName}
               </span>
               <span className="text-lg block break-all">{props.gearName}</span>
+              <div className="absolute right-4 bottom-3 flex items-center">
+                <span className="text-white text-xl flex items-center">
+                  {/* TODO:SVGファイルの扱い考える */}
+                  <svg width="20" height="18.35" viewBox="0 0 30 27.525">
+                    <path
+                      d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
+                      transform="translate(-3 -4.5)"
+                      className="fill-current"
+                    />
+                  </svg>
+                  <span className="ml-1.5">{likeCount}</span>
+                </span>
+                <span className="text-white text-xl flex items-center ml-3">
+                  <svg width="15" height="20" viewBox="0 0 15 20">
+                    <path
+                      d="M0,20V1.875A1.875,1.875,0,0,1,1.875,0h11.25A1.875,1.875,0,0,1,15,1.875V20L7.5,15.625Z"
+                      className="fill-current"
+                    />
+                  </svg>
+                  <span className="ml-1.5">0</span>
+                </span>
+                <span className="text-white text-xl flex items-center ml-3">
+                  <svg width="20" height="17.5" viewBox="0 0 20 17.5">
+                    <path
+                      d="M10,2.25c-5.523,0-10,3.637-10,8.125A7.212,7.212,0,0,0,2.227,15.48,9.938,9.938,0,0,1,.086,19.223a.311.311,0,0,0-.059.34.306.306,0,0,0,.285.188A8.933,8.933,0,0,0,5.8,17.742,11.913,11.913,0,0,0,10,18.5c5.523,0,10-3.637,10-8.125S15.523,2.25,10,2.25Z"
+                      transform="translate(0 -2.25)"
+                      className="fill-current"
+                    />
+                  </svg>
+                  <span className="ml-1.5">{comments.length}</span>
+                </span>
+              </div>
             </div>
           </div>
           <Modal
@@ -191,10 +246,41 @@ const Post: React.FC<PROPS> = (props) => {
                     </div>
                   </div>
                   <div className="mt-5 pb-1 border-b border-gray-400">
-                    <div className="text-white text-2xl">
-                      <p>{props.brandName}</p>
-                      <p>{props.gearName}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="text-white text-2xl">
+                        <p>{props.brandName}</p>
+                        <p>{props.gearName}</p>
+                      </div>
+                      <div className="w-36">
+                        <button
+                          className={
+                            "text-white flex items-center " +
+                            (likeState ? "text-red-400" : "")
+                          }
+                          onClick={() => {
+                            likeButton();
+                          }}
+                        >
+                          <svg
+                            id="icon_link"
+                            width="30"
+                            height="27.525"
+                            viewBox="0 0 30 27.525"
+                          >
+                            <path
+                              d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
+                              transform="translate(-3 -4.5)"
+                              className="fill-current"
+                            />
+                          </svg>
+
+                          <span className="text-3xl text-white ml-2">
+                            {likeCount}
+                          </span>
+                        </button>
+                      </div>
                     </div>
+
                     <p className="text-white text-xl mt-8">{props.text}</p>
                     <p className="text-gray-400 text-sm text-right mt-3">
                       {new Date(props.timestamp?.toDate()).toLocaleString()}
@@ -254,15 +340,6 @@ const Post: React.FC<PROPS> = (props) => {
               </div>
             </Fade>
           </Modal>
-
-          {/* <button
-          onClick={() => {
-            // setCheck(!check);
-            likeButton();
-          }}
-        >
-          いいね {props.likeCount}
-        </button> */}
         </a>
       </li>
     </>
