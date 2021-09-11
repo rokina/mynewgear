@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-import TweetInput from "./TweetInput";
 import Post from "./Post";
+import TweetInput from "./TweetInput";
 
 const Feed: React.FC = () => {
   const [posts, setPosts] = useState([
@@ -16,6 +16,7 @@ const Feed: React.FC = () => {
       timestamp: null,
       username: "",
       likeCount: 0,
+      bookmarkCount: 0,
     },
   ]);
   useEffect(() => {
@@ -35,6 +36,7 @@ const Feed: React.FC = () => {
             timestamp: doc.data().timestamp,
             username: doc.data().username,
             likeCount: doc.data().likeCount,
+            bookmarkCount: doc.data().bookmarkCount,
           }))
         )
       );
@@ -73,6 +75,7 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
+                bookmarkCount={post.bookmarkCount}
               />
             ))}
           </ul>
@@ -95,6 +98,7 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
+                bookmarkCount={post.bookmarkCount}
               />
             ))}
           </ul>
@@ -117,6 +121,7 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
+                bookmarkCount={post.bookmarkCount}
               />
             ))}
           </ul>

@@ -16,6 +16,7 @@ interface PROPS {
   timestamp: any;
   username: string;
   likeCount: number;
+  bookmarkCount: number;
 }
 
 interface COMMENT {
@@ -45,6 +46,8 @@ const Post: React.FC<PROPS> = (props) => {
   const user = useSelector(selectUser);
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [likeState, setLikeState] = useState(false);
+  const [bookmarkCount, setBookmarkCount] = useState(props.bookmarkCount);
+  const [bookmarkState, setBookmarkState] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<COMMENT[]>([
@@ -88,11 +91,31 @@ const Post: React.FC<PROPS> = (props) => {
       .get()
       .then((doc) => {
         if (doc.data()?.post) {
-          console.log(doc.data()?.post);
+          console.log("likePost:", doc.data()?.post);
           setLikeState(true);
         } else {
-          console.log("No such document!");
+          console.log("likePost:No such document!");
           setLikeState(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [props.postId, user.uid]);
+
+  useEffect(() => {
+    db.collection("users")
+      .doc(user.uid)
+      .collection("bookmarkPosts")
+      .doc(props.postId)
+      .get()
+      .then((doc) => {
+        if (doc.data()?.post) {
+          console.log("bookmarkPost:", doc.data()?.post);
+          setBookmarkState(true);
+        } else {
+          console.log("bookmarkPost:No such document!");
+          setBookmarkState(false);
         }
       })
       .catch((error) => {
@@ -149,6 +172,45 @@ const Post: React.FC<PROPS> = (props) => {
     }
   };
 
+  // TODO: いいねと共通化できそう
+  const bookmarkSave = (state: boolean) => {
+    if (state) {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("bookmarkPosts")
+        .doc(props.postId)
+        .set({
+          post: props.postId,
+        });
+    } else {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("bookmarkPosts")
+        .doc(props.postId)
+        .delete();
+    }
+  };
+
+  const bookmarkButton = () => {
+    if (!bookmarkState) {
+      bookmarkSave(true);
+      const newBookmarkCount = bookmarkCount + 1;
+      setBookmarkState(true);
+      setBookmarkCount(newBookmarkCount);
+      db.collection("posts").doc(props.postId).update({
+        bookmarkCount: newBookmarkCount,
+      });
+    } else {
+      bookmarkSave(false);
+      const newBookmarkCount = bookmarkCount - 1;
+      setBookmarkState(false);
+      setBookmarkCount(newBookmarkCount);
+      db.collection("posts").doc(props.postId).update({
+        bookmarkCount: newBookmarkCount,
+      });
+    }
+  };
+
   const handleOpen = () => {
     setOpenModal(true);
   };
@@ -194,7 +256,7 @@ const Post: React.FC<PROPS> = (props) => {
                       className="fill-current"
                     />
                   </svg>
-                  <span className="ml-1.5">0</span>
+                  <span className="ml-1.5">{bookmarkCount}</span>
                 </span>
                 <span className="text-white text-xl flex items-center ml-3">
                   <svg width="20" height="17.5" viewBox="0 0 20 17.5">
@@ -247,11 +309,11 @@ const Post: React.FC<PROPS> = (props) => {
                   </div>
                   <div className="mt-5 pb-1 border-b border-gray-400">
                     <div className="flex items-center justify-between">
-                      <div className="text-white text-2xl">
+                      <div className="text-white text-2xl w-4/6">
                         <p>{props.brandName}</p>
                         <p>{props.gearName}</p>
                       </div>
-                      <div className="w-36">
+                      <div className="flex items-center justify-between w-2/6">
                         <button
                           className={
                             "text-white flex items-center " +
@@ -276,6 +338,26 @@ const Post: React.FC<PROPS> = (props) => {
 
                           <span className="text-3xl text-white ml-2">
                             {likeCount}
+                          </span>
+                        </button>
+                        <button
+                          className={
+                            "text-white flex items-center " +
+                            (bookmarkState ? "text-green-300" : "")
+                          }
+                          onClick={() => {
+                            bookmarkButton();
+                          }}
+                        >
+                          <svg width="22.5" height="30" viewBox="0 0 22.5 30">
+                            <path
+                              d="M0,30V2.813A2.812,2.812,0,0,1,2.813,0H19.688A2.812,2.812,0,0,1,22.5,2.813V30L11.25,23.437Z"
+                              className="fill-current"
+                            />
+                          </svg>
+
+                          <span className="text-3xl text-white ml-2">
+                            {bookmarkCount}
                           </span>
                         </button>
                       </div>
