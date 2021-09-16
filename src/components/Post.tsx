@@ -222,10 +222,9 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li className="m-2">
-        <a
-          href="#"
+        <div
           onClick={handleOpen}
-          className="block relative w-72 rounded-2xl overflow-hidden"
+          className="block relative w-72 rounded-2xl overflow-hidden cursor-pointer"
         >
           {props.image && (
             <img src={props.image} alt="" className="object-cover w-72 h-72" />
@@ -424,7 +423,7 @@ const Post: React.FC<PROPS> = (props) => {
               </div>
             </Fade>
           </Modal>
-        </a>
+        </div>
       </li>
     </>
   );
