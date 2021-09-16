@@ -28,14 +28,14 @@ interface COMMENT {
 }
 
 function getModalStyle() {
-  const width = 1400;
-  const height = 900;
+  const width = 90;
+  const height = 90;
   const top = 50;
   const left = 50;
 
   return {
-    width: `${width}px`,
-    height: `${height}px`,
+    width: `${width}%`,
+    height: `${height}%`,
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
@@ -283,16 +283,18 @@ const Post: React.FC<PROPS> = (props) => {
             <Fade in={openModal}>
               <div
                 style={getModalStyle()}
-                className="relative bg-black border border-gray-500 rounded-2xl px-12 py-36 flex items-start"
+                className="relative bg-black border border-gray-500 rounded-2xl px-12 py-28 flex items-start"
               >
                 {props.image && (
-                  <img
-                    src={props.image}
-                    alt=""
-                    className="rounded-2xl w-8/12"
-                  />
+                  <div className="w-8/12">
+                    <img
+                      src={props.image}
+                      alt=""
+                      className="rounded-2xl m-auto"
+                    />
+                  </div>
                 )}
-                <div className="ml-10">
+                <div className="ml-10 w-4/12">
                   <div className="flex items-center">
                     <img
                       src={props.avatar}
