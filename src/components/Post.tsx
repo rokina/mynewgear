@@ -94,7 +94,7 @@ const Post: React.FC<PROPS> = (props) => {
           console.log("likePost:", doc.data()?.post);
           setLikeState(true);
         } else {
-          console.log("likePost:No such document!");
+          // console.log("likePost:No such document!");
           setLikeState(false);
         }
       })
@@ -114,7 +114,7 @@ const Post: React.FC<PROPS> = (props) => {
           console.log("bookmarkPost:", doc.data()?.post);
           setBookmarkState(true);
         } else {
-          console.log("bookmarkPost:No such document!");
+          // console.log("bookmarkPost:No such document!");
           setBookmarkState(false);
         }
       })

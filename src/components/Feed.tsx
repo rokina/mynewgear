@@ -54,6 +54,7 @@ const Feed: React.FC = () => {
 
   const posts_guitar = posts_filter("guitar");
   const posts_bass = posts_filter("bass");
+  console.log(`posts_guitar`, posts_guitar);
 
   return (
     <>
