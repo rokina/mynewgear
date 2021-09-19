@@ -46,7 +46,7 @@ const MyPage: React.FC = () => {
     return () => {
       unSub();
     };
-  }, []);
+  }, [user.uid]);
 
   return (
     <>
