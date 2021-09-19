@@ -77,6 +77,7 @@ const TweetInput: React.FC = () => {
                 username: user.displayName,
                 likeCount: 0,
                 bookmarkCount: 0,
+                likedUser: [],
               });
             });
         }
@@ -93,6 +94,7 @@ const TweetInput: React.FC = () => {
         username: user.displayName,
         likeCount: 0,
         bookmarkCount: 0,
+        likedUser: [],
       });
     }
     setTweetImage(null);

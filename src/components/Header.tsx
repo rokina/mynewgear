@@ -1,9 +1,10 @@
 import React from "react";
-import { auth } from "../firebase";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
-import Logo from "../img/logo.svg";
+import { auth } from "../firebase";
 import Icon from "../img/icon_user.svg";
+import Logo from "../img/logo.svg";
 
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
@@ -25,7 +26,18 @@ const Header: React.FC = () => {
               <a href="/?cat=other">#other</a>
             </li>
             <li className="w-9 rounded-full overflow-hidden">
-              <a href="/mypage/">
+              <Link to="/mypage/">
+                <img
+                  src={user.photoUrl ? user.photoUrl : Icon}
+                  alt=""
+                  // onClick={async () => {
+                  //   await auth.signOut();
+                  // }}
+                />
+              </Link>
+            </li>
+            <li className="w-9 rounded-full overflow-hidden">
+              <Link to="/mypage/">
                 <img
                   src={user.photoUrl ? user.photoUrl : Icon}
                   alt=""
@@ -33,7 +45,7 @@ const Header: React.FC = () => {
                     await auth.signOut();
                   }}
                 />
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
