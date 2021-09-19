@@ -54,6 +54,7 @@ const TweetInput: React.FC = () => {
         .join("");
       const fileName = randomChar + "_" + tweetImage.name;
       const uploadTweetImg = storage.ref(`images/${fileName}`).put(tweetImage);
+      // TODO: react-image-file-resizerでアップロード前にリサイズwebp化
       uploadTweetImg.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
         () => {},
