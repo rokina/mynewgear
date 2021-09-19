@@ -4,21 +4,21 @@ import Post from "./Post";
 import TweetInput from "./TweetInput";
 
 const Feed: React.FC = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: "",
-      avatar: "",
-      image: "",
-      category: "",
-      text: "",
-      brandName: "",
-      gearName: "",
-      timestamp: null,
-      username: "",
-      likeCount: 0,
-      bookmarkCount: 0,
-    },
-  ]);
+  interface PostObj {
+    id: string;
+    avatar: string;
+    image: string;
+    category: string;
+    text: string;
+    brandName: string;
+    gearName: string;
+    timestamp: any;
+    username: string;
+    likeCount: number;
+    bookmarkCount: number;
+    likedUser: [];
+  }
+  const [posts, setPosts] = useState<PostObj[]>([]);
   useEffect(() => {
     const unSub = db
       .collection("posts")
@@ -37,6 +37,7 @@ const Feed: React.FC = () => {
             username: doc.data().username,
             likeCount: doc.data().likeCount,
             bookmarkCount: doc.data().bookmarkCount,
+            likedUser: doc.data().likedUser,
           }))
         )
       );
@@ -54,7 +55,6 @@ const Feed: React.FC = () => {
 
   const posts_guitar = posts_filter("guitar");
   const posts_bass = posts_filter("bass");
-  console.log(`posts_guitar`, posts_guitar);
 
   return (
     <>
@@ -77,6 +77,7 @@ const Feed: React.FC = () => {
                 username={post.username}
                 likeCount={post.likeCount}
                 bookmarkCount={post.bookmarkCount}
+                likedUser={post.likedUser}
               />
             ))}
           </ul>
@@ -100,6 +101,7 @@ const Feed: React.FC = () => {
                 username={post.username}
                 likeCount={post.likeCount}
                 bookmarkCount={post.bookmarkCount}
+                likedUser={post.likedUser}
               />
             ))}
           </ul>
@@ -123,6 +125,7 @@ const Feed: React.FC = () => {
                 username={post.username}
                 likeCount={post.likeCount}
                 bookmarkCount={post.bookmarkCount}
+                likedUser={post.likedUser}
               />
             ))}
           </ul>

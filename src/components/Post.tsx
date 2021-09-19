@@ -17,6 +17,7 @@ interface PROPS {
   username: string;
   likeCount: number;
   bookmarkCount: number;
+  likedUser: [];
 }
 
 interface COMMENT {
@@ -91,10 +92,8 @@ const Post: React.FC<PROPS> = (props) => {
       .get()
       .then((doc) => {
         if (doc.data()?.post) {
-          console.log("likePost:", doc.data()?.post);
           setLikeState(true);
         } else {
-          // console.log("likePost:No such document!");
           setLikeState(false);
         }
       })
@@ -111,10 +110,8 @@ const Post: React.FC<PROPS> = (props) => {
       .get()
       .then((doc) => {
         if (doc.data()?.post) {
-          console.log("bookmarkPost:", doc.data()?.post);
           setBookmarkState(true);
         } else {
-          // console.log("bookmarkPost:No such document!");
           setBookmarkState(false);
         }
       })
@@ -136,6 +133,11 @@ const Post: React.FC<PROPS> = (props) => {
 
   const likeSave = (state: boolean) => {
     if (state) {
+      db.collection("posts")
+        .doc(props.postId)
+        .update({
+          likedUser: firebase.firestore.FieldValue.arrayUnion(user.uid),
+        });
       db.collection("users")
         .doc(user.uid)
         .collection("likePosts")
@@ -144,6 +146,11 @@ const Post: React.FC<PROPS> = (props) => {
           post: props.postId,
         });
     } else {
+      db.collection("posts")
+        .doc(props.postId)
+        .update({
+          likedUser: firebase.firestore.FieldValue.arrayRemove(user.uid),
+        });
       db.collection("users")
         .doc(user.uid)
         .collection("likePosts")
