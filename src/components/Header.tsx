@@ -11,19 +11,19 @@ const Header: React.FC = () => {
   return (
     <header className="bg-black p-3">
       <h1 className="flex items-center justify-between">
-        <a href="/">
+        <Link to="/">
           <img src={Logo} alt="MNG" />
-        </a>
+        </Link>
         <nav>
           <ul className="text-white flex items-center space-x-4 text-base">
             <li>
-              <a href="/?cat=guitar">#guitar</a>
+              <Link to="/?cat=guitar">#guitar</Link>
             </li>
             <li>
-              <a href="#/?cat=bass">#bass</a>
+              <Link to="/?cat=bass">#bass</Link>
             </li>
             <li>
-              <a href="/?cat=other">#other</a>
+              <Link to="/?cat=other">#other</Link>
             </li>
             <li className="w-9 rounded-full overflow-hidden">
               <Link to="/mypage/">
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li className="w-9 rounded-full overflow-hidden">
-              <Link to="/mypage/">
+              <Link to="">
                 <img
                   src={user.photoUrl ? user.photoUrl : Icon}
                   alt=""
