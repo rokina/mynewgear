@@ -37,7 +37,7 @@ const App: React.FC = () => {
       <Router>
         <Header />
         {user.uid ? (
-          <main className="bg-gray-800 text-white px-24 py-12">
+          <main className="text-white px-24 py-12 bg-black">
             <Route exact path="/" component={Feed} />
             <Route path="/mypage/" component={MyPage} />
           </main>

@@ -9,7 +9,7 @@ import Logo from "../img/logo.svg";
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
   return (
-    <header className="bg-black p-3">
+    <header className="p-3 bg-black-dark">
       <h1 className="flex items-center justify-between">
         <Link to="/">
           <img src={Logo} alt="MNG" />
