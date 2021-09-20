@@ -118,7 +118,7 @@ const TweetInput: React.FC = () => {
         <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
         <button
           onClick={handleOpen}
-          className="text-xl font-bold border border-white rounded-lg py-2 px-4 mt-6 transition-colors hover:bg-white hover:text-gray-800"
+          className="text-xl font-bold border border-white rounded-lg py-2 px-4 mt-6 transition-colors hover:bg-white hover:text-black-light"
         >
           my new gear を投稿
         </button>
@@ -207,7 +207,7 @@ const TweetInput: React.FC = () => {
                 color="primary"
                 disabled={!tweetImage}
               >
-                <span className={tweetImage ? "text-white" : "text-gray-400"}>
+                <span className={tweetImage ? "text-white" : "text-gray"}>
                   my new gear を投稿
                 </span>
               </Button>

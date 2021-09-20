@@ -237,7 +237,7 @@ const Post: React.FC<PROPS> = (props) => {
             <img src={props.image} alt="" className="object-cover w-72 h-72" />
           )}
           <span className="absolute bottom-2 right-2">#{props.category}</span>
-          <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black hover:bg-opacity-50">
+          <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50">
             <div className="px-5">
               <span className="text-xl block break-all">
                 # {props.brandName}
@@ -312,10 +312,10 @@ const Post: React.FC<PROPS> = (props) => {
                         {props.username}
                       </p>
                       {/* TODO: userIDも投稿に紐付けるようにする */}
-                      <p className="text-gray-400 text-x">@rokiroki</p>
+                      <p className="text-gray text-x">@rokiroki</p>
                     </div>
                   </div>
-                  <div className="mt-5 pb-1 border-b border-gray-400">
+                  <div className="mt-5 pb-1 border-b border-gray">
                     <div className="flex items-center justify-between">
                       <div className="text-white text-2xl w-4/6">
                         <p>{props.brandName}</p>
@@ -324,8 +324,8 @@ const Post: React.FC<PROPS> = (props) => {
                       <div className="flex items-center justify-between w-2/6">
                         <button
                           className={
-                            "text-white flex items-center " +
-                            (likeState ? "text-red-400" : "")
+                            "flex items-center " +
+                            (likeState ? "text-red" : "text-white")
                           }
                           onClick={() => {
                             likeButton();
@@ -350,8 +350,8 @@ const Post: React.FC<PROPS> = (props) => {
                         </button>
                         <button
                           className={
-                            "text-white flex items-center " +
-                            (bookmarkState ? "text-green-300" : "")
+                            "flex items-center " +
+                            (bookmarkState ? "text-green" : "text-white")
                           }
                           onClick={() => {
                             bookmarkButton();
@@ -372,7 +372,7 @@ const Post: React.FC<PROPS> = (props) => {
                     </div>
 
                     <p className="text-white text-xl mt-8">{props.text}</p>
-                    <p className="text-gray-400 text-sm text-right mt-3">
+                    <p className="text-gray text-sm text-right mt-3">
                       {new Date(props.timestamp?.toDate()).toLocaleString()}
                     </p>
                   </div>
@@ -381,18 +381,18 @@ const Post: React.FC<PROPS> = (props) => {
                       {comments.map((com) => (
                         <div
                           key={com.id}
-                          className="text-white flex pt-3 pb-2 border-b border-gray-400"
+                          className="text-white flex pt-3 pb-2 border-b border-gray"
                         >
                           <Avatar src={com.avatar} />
 
                           <div className="ml-2">
                             <div className="flex items-center">
                               <span className="text-base">{com.username}</span>
-                              <span className="text-xs ml-1 text-gray-400">
+                              <span className="text-xs ml-1 text-gray">
                                 {/* TODO: ユーザーID表示する */}
                                 @user_id
                               </span>
-                              <span className="text-xs ml-1 text-gray-400">
+                              <span className="text-xs ml-1 text-gray">
                                 {new Date(
                                   com.timestamp?.toDate()
                                 ).toLocaleString()}
@@ -411,14 +411,14 @@ const Post: React.FC<PROPS> = (props) => {
                         name=""
                         id=""
                         placeholder="返信を投稿"
-                        className="bg-transparent rounded border border-gray-400 ml-2 px-2 py-1 text-white w-72"
+                        className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-white w-72"
                         value={comment}
                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                           setComment(e.target.value)
                         }
                       ></textarea>
                       <button
-                        className="text-white text-xs bg-blue-500 rounded-xl py-1 px-2 ml-2"
+                        className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
                         disabled={!comment}
                         type="submit"
                       >
