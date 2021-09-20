@@ -289,7 +289,7 @@ const Post: React.FC<PROPS> = (props) => {
             <Fade in={openModal}>
               <div
                 style={getModalStyle()}
-                className="relative bg-black border border-gray-500 rounded-2xl px-12 py-28 flex items-start"
+                className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
               >
                 {props.image && (
                   <div className="w-8/12">
