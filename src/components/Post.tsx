@@ -277,161 +277,155 @@ const Post: React.FC<PROPS> = (props) => {
               </div>
             </div>
           </div>
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={openModal}>
-              <div
-                style={getModalStyle()}
-                className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
-              >
-                {props.image && (
-                  <div className="w-8/12">
-                    <img
-                      src={props.image}
-                      alt=""
-                      className="rounded-2xl m-auto"
-                    />
-                  </div>
-                )}
-                <div className="ml-10 w-4/12">
-                  <div className="flex items-center">
-                    <img
-                      src={props.avatar}
-                      alt=""
-                      className="rounded-full w-20 h-20"
-                    />
-                    <div className="ml-5">
-                      <p className="text-white text-2xl font-bold">
-                        {props.username}
-                      </p>
-                      {/* TODO: userIDも投稿に紐付けるようにする */}
-                      <p className="text-gray text-x">@rokiroki</p>
-                    </div>
-                  </div>
-                  <div className="mt-5 pb-1 border-b border-gray">
-                    <div className="flex items-center justify-between">
-                      <div className="text-white text-2xl w-4/6">
-                        <p>{props.brandName}</p>
-                        <p>{props.gearName}</p>
-                      </div>
-                      <div className="flex items-center justify-between w-2/6">
-                        <button
-                          className={
-                            "flex items-center " +
-                            (likeState ? "text-red" : "text-white")
-                          }
-                          onClick={() => {
-                            likeButton();
-                          }}
-                        >
-                          <svg
-                            id="icon_link"
-                            width="30"
-                            height="27.525"
-                            viewBox="0 0 30 27.525"
-                          >
-                            <path
-                              d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
-                              transform="translate(-3 -4.5)"
-                              className="fill-current"
-                            />
-                          </svg>
-
-                          <span className="text-3xl text-white ml-2">
-                            {likeCount}
-                          </span>
-                        </button>
-                        <button
-                          className={
-                            "flex items-center " +
-                            (bookmarkState ? "text-green" : "text-white")
-                          }
-                          onClick={() => {
-                            bookmarkButton();
-                          }}
-                        >
-                          <svg width="22.5" height="30" viewBox="0 0 22.5 30">
-                            <path
-                              d="M0,30V2.813A2.812,2.812,0,0,1,2.813,0H19.688A2.812,2.812,0,0,1,22.5,2.813V30L11.25,23.437Z"
-                              className="fill-current"
-                            />
-                          </svg>
-
-                          <span className="text-3xl text-white ml-2">
-                            {bookmarkCount}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="text-white text-xl mt-8">{props.text}</p>
-                    <p className="text-gray text-sm text-right mt-3">
-                      {new Date(props.timestamp?.toDate()).toLocaleString()}
-                    </p>
-                  </div>
-                  {comments && (
-                    <>
-                      {comments.map((com) => (
-                        <div
-                          key={com.id}
-                          className="text-white flex pt-3 pb-2 border-b border-gray"
-                        >
-                          <Avatar src={com.avatar} />
-
-                          <div className="ml-2">
-                            <div className="flex items-center">
-                              <span className="text-base">{com.username}</span>
-                              <span className="text-xs ml-1 text-gray">
-                                {/* TODO: ユーザーID表示する */}
-                                @user_id
-                              </span>
-                              <span className="text-xs ml-1 text-gray">
-                                {new Date(
-                                  com.timestamp?.toDate()
-                                ).toLocaleString()}
-                              </span>
-                            </div>
-                            <span>{com.text}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                  <form onSubmit={newComment}>
-                    <div className="flex items-center mt-5">
-                      <Avatar src={user.photoUrl} />
-                      <textarea
-                        name=""
-                        id=""
-                        placeholder="返信を投稿"
-                        className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-white w-72"
-                        value={comment}
-                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                          setComment(e.target.value)
-                        }
-                      ></textarea>
-                      <button
-                        className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
-                        disabled={!comment}
-                        type="submit"
-                      >
-                        返信
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </Fade>
-          </Modal>
         </div>
       </li>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div
+            style={getModalStyle()}
+            className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
+          >
+            {props.image && (
+              <div className="w-8/12">
+                <img src={props.image} alt="" className="rounded-2xl m-auto" />
+              </div>
+            )}
+            <div className="ml-10 w-4/12">
+              <div className="flex items-center">
+                <img
+                  src={props.avatar}
+                  alt=""
+                  className="rounded-full w-20 h-20"
+                />
+                <div className="ml-5">
+                  <p className="text-white text-2xl font-bold">
+                    {props.username}
+                  </p>
+                  {/* TODO: userIDも投稿に紐付けるようにする */}
+                  <p className="text-gray text-x">@rokiroki</p>
+                </div>
+              </div>
+              <div className="mt-5 pb-1 border-b border-gray">
+                <div className="flex items-center justify-between">
+                  <div className="text-white text-2xl w-4/6">
+                    <p>{props.brandName}</p>
+                    <p>{props.gearName}</p>
+                  </div>
+                  <div className="flex items-center justify-between w-2/6">
+                    <button
+                      className={
+                        "flex items-center " +
+                        (likeState ? "text-red" : "text-white")
+                      }
+                      onClick={() => {
+                        likeButton();
+                      }}
+                    >
+                      <svg
+                        id="icon_link"
+                        width="30"
+                        height="27.525"
+                        viewBox="0 0 30 27.525"
+                      >
+                        <path
+                          d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
+                          transform="translate(-3 -4.5)"
+                          className="fill-current"
+                        />
+                      </svg>
+
+                      <span className="text-3xl text-white ml-2">
+                        {likeCount}
+                      </span>
+                    </button>
+                    <button
+                      className={
+                        "flex items-center " +
+                        (bookmarkState ? "text-green" : "text-white")
+                      }
+                      onClick={() => {
+                        bookmarkButton();
+                      }}
+                    >
+                      <svg width="22.5" height="30" viewBox="0 0 22.5 30">
+                        <path
+                          d="M0,30V2.813A2.812,2.812,0,0,1,2.813,0H19.688A2.812,2.812,0,0,1,22.5,2.813V30L11.25,23.437Z"
+                          className="fill-current"
+                        />
+                      </svg>
+
+                      <span className="text-3xl text-white ml-2">
+                        {bookmarkCount}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <p className="text-white text-xl mt-8">{props.text}</p>
+                <p className="text-gray text-sm text-right mt-3">
+                  {new Date(props.timestamp?.toDate()).toLocaleString()}
+                </p>
+              </div>
+              {comments && (
+                <>
+                  {comments.map((com) => (
+                    <div
+                      key={com.id}
+                      className="text-white flex pt-3 pb-2 border-b border-gray"
+                    >
+                      <Avatar src={com.avatar} />
+
+                      <div className="ml-2">
+                        <div className="flex items-center">
+                          <span className="text-base">{com.username}</span>
+                          <span className="text-xs ml-1 text-gray">
+                            {/* TODO: ユーザーID表示する */}
+                            @user_id
+                          </span>
+                          <span className="text-xs ml-1 text-gray">
+                            {new Date(com.timestamp?.toDate()).toLocaleString()}
+                          </span>
+                        </div>
+                        <span>{com.text}</span>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+              <form onSubmit={newComment}>
+                <div className="flex items-center mt-5">
+                  <Avatar src={user.photoUrl} />
+                  <textarea
+                    name=""
+                    id=""
+                    placeholder="返信を投稿"
+                    className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-white w-72"
+                    value={comment}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setComment(e.target.value)
+                    }
+                  ></textarea>
+                  <button
+                    className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
+                    disabled={!comment}
+                    type="submit"
+                  >
+                    返信
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
     </>
   );
 };
