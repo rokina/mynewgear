@@ -114,7 +114,7 @@ const TweetInput: React.FC = () => {
   return (
     <>
       <div className="text-4xl text-center">
-        <p>my new gear...</p>
+        <p className="">my new gear...</p>
         <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
         <button
           onClick={handleOpen}
