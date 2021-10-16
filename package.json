@@ -30,7 +30,7 @@
     "typescript": "~4.4.2"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
