@@ -62,7 +62,7 @@ const Feed: React.FC = () => {
       <section className="mt-5">
         <h2 className="text-lg">#mynewgear</h2>
         {posts[0]?.id && (
-          <ul className="flex flex-wrap -m-2 mt-0">
+          <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
               <Post
                 key={post.id}
@@ -86,7 +86,7 @@ const Feed: React.FC = () => {
       <section className="mt-8 mb-8">
         <h2 className="text-lg">#guitar</h2>
         {posts_guitar[0]?.id && (
-          <ul className="flex flex-wrap -m-2 mt-0">
+          <ul className="flex flex-wrap mx-[-5px]">
             {posts_guitar.map((post) => (
               <Post
                 key={post.id}
@@ -110,7 +110,7 @@ const Feed: React.FC = () => {
       <section className="mt-8 mb-8">
         <h2 className="text-lg">#bass</h2>
         {posts_bass[0]?.id && (
-          <ul className="flex flex-wrap -m-2 mt-0">
+          <ul className="flex flex-wrap mx-[-5px]">
             {posts_bass.map((post) => (
               <Post
                 key={post.id}

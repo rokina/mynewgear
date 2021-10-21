@@ -228,53 +228,53 @@ const Post: React.FC<PROPS> = (props) => {
 
   return (
     <>
-      <li className="m-2">
-        <div
-          onClick={handleOpen}
-          className="block relative w-72 rounded-2xl overflow-hidden cursor-pointer"
-        >
-          {props.image && (
-            <img src={props.image} alt="" className="object-cover w-72 h-72" />
-          )}
-          <span className="absolute bottom-2 right-2">#{props.category}</span>
-          <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50">
-            <div className="px-5">
-              <span className="text-xl block break-all">
-                # {props.brandName}
+      <li
+        className="w-[calc(16.666667%-(60px/6))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(50%-(20px/2))]"
+        onClick={handleOpen}
+      >
+        {props.image && (
+          <img
+            src={props.image}
+            alt=""
+            className="object-cover absolute w-full h-full top-0 right-0 bottom-0 left-0 m-auto rounded-[20px]"
+          />
+        )}
+        <span className="absolute bottom-2 right-2">#{props.category}</span>
+        <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50">
+          <div className="px-5">
+            <span className="text-xl block break-all"># {props.brandName}</span>
+            <span className="text-lg block break-all">{props.gearName}</span>
+            <div className="absolute right-4 bottom-3 flex items-center">
+              <span className="text-white text-xl flex items-center">
+                {/* TODO:SVGファイルの扱い考える */}
+                <svg width="20" height="18.35" viewBox="0 0 30 27.525">
+                  <path
+                    d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
+                    transform="translate(-3 -4.5)"
+                    className="fill-current"
+                  />
+                </svg>
+                <span className="ml-1.5">{likeCount}</span>
               </span>
-              <span className="text-lg block break-all">{props.gearName}</span>
-              <div className="absolute right-4 bottom-3 flex items-center">
-                <span className="text-white text-xl flex items-center">
-                  {/* TODO:SVGファイルの扱い考える */}
-                  <svg width="20" height="18.35" viewBox="0 0 30 27.525">
-                    <path
-                      d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
-                      transform="translate(-3 -4.5)"
-                      className="fill-current"
-                    />
-                  </svg>
-                  <span className="ml-1.5">{likeCount}</span>
-                </span>
-                <span className="text-white text-xl flex items-center ml-3">
-                  <svg width="15" height="20" viewBox="0 0 15 20">
-                    <path
-                      d="M0,20V1.875A1.875,1.875,0,0,1,1.875,0h11.25A1.875,1.875,0,0,1,15,1.875V20L7.5,15.625Z"
-                      className="fill-current"
-                    />
-                  </svg>
-                  <span className="ml-1.5">{bookmarkCount}</span>
-                </span>
-                <span className="text-white text-xl flex items-center ml-3">
-                  <svg width="20" height="17.5" viewBox="0 0 20 17.5">
-                    <path
-                      d="M10,2.25c-5.523,0-10,3.637-10,8.125A7.212,7.212,0,0,0,2.227,15.48,9.938,9.938,0,0,1,.086,19.223a.311.311,0,0,0-.059.34.306.306,0,0,0,.285.188A8.933,8.933,0,0,0,5.8,17.742,11.913,11.913,0,0,0,10,18.5c5.523,0,10-3.637,10-8.125S15.523,2.25,10,2.25Z"
-                      transform="translate(0 -2.25)"
-                      className="fill-current"
-                    />
-                  </svg>
-                  <span className="ml-1.5">{comments.length}</span>
-                </span>
-              </div>
+              <span className="text-white text-xl flex items-center ml-3">
+                <svg width="15" height="20" viewBox="0 0 15 20">
+                  <path
+                    d="M0,20V1.875A1.875,1.875,0,0,1,1.875,0h11.25A1.875,1.875,0,0,1,15,1.875V20L7.5,15.625Z"
+                    className="fill-current"
+                  />
+                </svg>
+                <span className="ml-1.5">{bookmarkCount}</span>
+              </span>
+              <span className="text-white text-xl flex items-center ml-3">
+                <svg width="20" height="17.5" viewBox="0 0 20 17.5">
+                  <path
+                    d="M10,2.25c-5.523,0-10,3.637-10,8.125A7.212,7.212,0,0,0,2.227,15.48,9.938,9.938,0,0,1,.086,19.223a.311.311,0,0,0-.059.34.306.306,0,0,0,.285.188A8.933,8.933,0,0,0,5.8,17.742,11.913,11.913,0,0,0,10,18.5c5.523,0,10-3.637,10-8.125S15.523,2.25,10,2.25Z"
+                    transform="translate(0 -2.25)"
+                    className="fill-current"
+                  />
+                </svg>
+                <span className="ml-1.5">{comments.length}</span>
+              </span>
             </div>
           </div>
         </div>
@@ -294,8 +294,12 @@ const Post: React.FC<PROPS> = (props) => {
             className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
           >
             {props.image && (
-              <div className="w-8/12">
-                <img src={props.image} alt="" className="rounded-2xl m-auto" />
+              <div className="w-8/12 h-full">
+                <img
+                  src={props.image}
+                  alt=""
+                  className="rounded-[20px] m-auto max-w-full max-h-full"
+                />
               </div>
             )}
             <div className="ml-10 w-4/12">
