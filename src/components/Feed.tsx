@@ -1,7 +1,26 @@
+import { Backdrop, Fade, Modal } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 import { db } from "../firebase";
+import Auth from "./Auth";
 import Post from "./Post";
 import TweetInput from "./TweetInput";
+
+function getModalStyle() {
+  const width = 90;
+  const height = 90;
+  const top = 50;
+  const left = 50;
+
+  return {
+    width: `${width}%`,
+    height: `${height}%`,
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const Feed: React.FC = () => {
   interface PostObj {
@@ -18,6 +37,8 @@ const Feed: React.FC = () => {
     likedUser: [];
   }
   const [posts, setPosts] = useState<PostObj[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const user = useSelector(selectUser);
   useEffect(() => {
     const unSub = db
       .collection("posts")
@@ -54,9 +75,42 @@ const Feed: React.FC = () => {
   const posts_guitar = posts_filter("guitar");
   const posts_bass = posts_filter("bass");
 
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
   return (
     <>
       <TweetInput />
+      <button onClick={handleOpen}>ボタン</button>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div
+            style={getModalStyle()}
+            className="relative bg-black border border-gray text-white rounded-2xl px-12 py-28 flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
+          >
+            {user.uid ? <p>ログイン済み</p> : <Auth />}
+            {/* {user.uid ? <InputForm /> : <Auth />} */}
+          </div>
+        </Fade>
+      </Modal>
+      {/* 「my new gear投稿」ボタン押下時
+      未ログイン＝ログインor新規登録モーダル
+      ログイン済み＝投稿画面
+      TweetInputからフォームだけ分離する */}
+
       <section className="mt-5">
         <h2 className="text-lg">#mynewgear</h2>
         {posts[0]?.id && (

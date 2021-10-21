@@ -36,14 +36,15 @@ const App: React.FC = () => {
     <>
       <Router>
         <Header />
-        {user.uid ? (
-          <main className="text-white px-[80px] py-12 bg-black lg:px-[50px] md:px-[20px]">
-            <Route exact path="/" component={Feed} />
-            <Route path="/mypage/" component={MyPage} />
-          </main>
-        ) : (
+        {/* {user.uid ? ( */}
+        <main className="text-white px-[80px] py-12 bg-black lg:px-[50px] md:px-[20px]">
+          <Route exact path="/" component={Feed} />
+          <Route path="/mypage/" component={MyPage} />
+          <Route path="/login/" component={Auth} />
+        </main>
+        {/* ) : (
           <Auth />
-        )}
+        )} */}
         <Footer />
       </Router>
     </>

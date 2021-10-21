@@ -81,23 +81,24 @@ const Post: React.FC<PROPS> = (props) => {
     };
   }, [props.postId]);
 
-  useEffect(() => {
-    db.collection("users")
-      .doc(user.uid)
-      .collection("likePosts")
-      .doc(props.postId)
-      .get()
-      .then((doc) => {
-        if (doc.data()?.post) {
-          setLikeState(true);
-        } else {
-          setLikeState(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [props.postId, user.uid]);
+  // TODO:いいねした投稿を取得 未ログインでもエラーが出ないようにする
+  // useEffect(() => {
+  //   db.collection("users")
+  //     .doc(user.uid)
+  //     .collection("likePosts")
+  //     .doc(props.postId)
+  //     .get()
+  //     .then((doc) => {
+  //       if (doc.data()?.post) {
+  //         setLikeState(true);
+  //       } else {
+  //         setLikeState(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [props.postId, user.uid]);
 
   const newComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
