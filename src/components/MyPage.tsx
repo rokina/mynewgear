@@ -16,7 +16,6 @@ const MyPage: React.FC = () => {
     timestamp: any;
     username: string;
     likeCount: number;
-    bookmarkCount: number;
     likedUser: [];
   }
   const user = useSelector(selectUser);
@@ -38,7 +37,6 @@ const MyPage: React.FC = () => {
             timestamp: doc.data().timestamp,
             username: doc.data().username,
             likeCount: doc.data().likeCount,
-            bookmarkCount: doc.data().bookmarkCount,
             likedUser: doc.data().likedUser,
           }))
         )
@@ -67,7 +65,6 @@ const MyPage: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
-                bookmarkCount={post.bookmarkCount}
                 likedUser={post.likedUser}
               />
             ))}

@@ -77,7 +77,6 @@ const TweetInput: React.FC = () => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 username: user.displayName,
                 likeCount: 0,
-                bookmarkCount: 0,
                 likedUser: [],
               });
             });
@@ -94,7 +93,6 @@ const TweetInput: React.FC = () => {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         username: user.displayName,
         likeCount: 0,
-        bookmarkCount: 0,
         likedUser: [],
       });
     }
