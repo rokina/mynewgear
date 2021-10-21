@@ -229,7 +229,7 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li
-        className="w-[calc(16.666667%-(60px/6))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(50%-(20px/2))]"
+        className="w-[calc(20%-(50px/5))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(50%-(20px/2))]"
         onClick={handleOpen}
       >
         {props.image && (
