@@ -246,7 +246,7 @@ const Post: React.FC<PROPS> = (props) => {
             <span className="text-lg block break-all">{props.gearName}</span>
             <div className="absolute right-4 bottom-3 flex items-center">
               <span className="text-white text-xl flex items-center">
-                {/* TODO:SVGファイルの扱い考える */}
+                {/* TODO:SVGファイルの扱い方考える */}
                 <svg width="20" height="18.35" viewBox="0 0 30 27.525">
                   <path
                     d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
