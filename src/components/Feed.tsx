@@ -15,7 +15,6 @@ const Feed: React.FC = () => {
     timestamp: any;
     username: string;
     likeCount: number;
-    bookmarkCount: number;
     likedUser: [];
   }
   const [posts, setPosts] = useState<PostObj[]>([]);
@@ -36,7 +35,6 @@ const Feed: React.FC = () => {
             timestamp: doc.data().timestamp,
             username: doc.data().username,
             likeCount: doc.data().likeCount,
-            bookmarkCount: doc.data().bookmarkCount,
             likedUser: doc.data().likedUser,
           }))
         )
@@ -76,7 +74,6 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
-                bookmarkCount={post.bookmarkCount}
                 likedUser={post.likedUser}
               />
             ))}
@@ -100,7 +97,6 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
-                bookmarkCount={post.bookmarkCount}
                 likedUser={post.likedUser}
               />
             ))}
@@ -124,7 +120,6 @@ const Feed: React.FC = () => {
                 timestamp={post.timestamp}
                 username={post.username}
                 likeCount={post.likeCount}
-                bookmarkCount={post.bookmarkCount}
                 likedUser={post.likedUser}
               />
             ))}

@@ -16,7 +16,6 @@ interface PROPS {
   timestamp: any;
   username: string;
   likeCount: number;
-  bookmarkCount: number;
   likedUser: [];
 }
 
@@ -47,8 +46,6 @@ const Post: React.FC<PROPS> = (props) => {
   const user = useSelector(selectUser);
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [likeState, setLikeState] = useState(false);
-  const [bookmarkCount, setBookmarkCount] = useState(props.bookmarkCount);
-  const [bookmarkState, setBookmarkState] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<COMMENT[]>([
@@ -95,24 +92,6 @@ const Post: React.FC<PROPS> = (props) => {
           setLikeState(true);
         } else {
           setLikeState(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [props.postId, user.uid]);
-
-  useEffect(() => {
-    db.collection("users")
-      .doc(user.uid)
-      .collection("bookmarkPosts")
-      .doc(props.postId)
-      .get()
-      .then((doc) => {
-        if (doc.data()?.post) {
-          setBookmarkState(true);
-        } else {
-          setBookmarkState(false);
         }
       })
       .catch((error) => {
@@ -179,45 +158,6 @@ const Post: React.FC<PROPS> = (props) => {
     }
   };
 
-  // TODO: いいねと共通化できそう
-  const bookmarkSave = (state: boolean) => {
-    if (state) {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("bookmarkPosts")
-        .doc(props.postId)
-        .set({
-          post: props.postId,
-        });
-    } else {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("bookmarkPosts")
-        .doc(props.postId)
-        .delete();
-    }
-  };
-
-  const bookmarkButton = () => {
-    if (!bookmarkState) {
-      bookmarkSave(true);
-      const newBookmarkCount = bookmarkCount + 1;
-      setBookmarkState(true);
-      setBookmarkCount(newBookmarkCount);
-      db.collection("posts").doc(props.postId).update({
-        bookmarkCount: newBookmarkCount,
-      });
-    } else {
-      bookmarkSave(false);
-      const newBookmarkCount = bookmarkCount - 1;
-      setBookmarkState(false);
-      setBookmarkCount(newBookmarkCount);
-      db.collection("posts").doc(props.postId).update({
-        bookmarkCount: newBookmarkCount,
-      });
-    }
-  };
-
   const handleOpen = () => {
     setOpenModal(true);
   };
@@ -255,15 +195,6 @@ const Post: React.FC<PROPS> = (props) => {
                   />
                 </svg>
                 <span className="ml-1.5">{likeCount}</span>
-              </span>
-              <span className="text-white text-xl flex items-center ml-3">
-                <svg width="15" height="20" viewBox="0 0 15 20">
-                  <path
-                    d="M0,20V1.875A1.875,1.875,0,0,1,1.875,0h11.25A1.875,1.875,0,0,1,15,1.875V20L7.5,15.625Z"
-                    className="fill-current"
-                  />
-                </svg>
-                <span className="ml-1.5">{bookmarkCount}</span>
               </span>
               <span className="text-white text-xl flex items-center ml-3">
                 <svg width="20" height="17.5" viewBox="0 0 20 17.5">
@@ -348,26 +279,6 @@ const Post: React.FC<PROPS> = (props) => {
 
                       <span className="text-3xl text-white ml-2">
                         {likeCount}
-                      </span>
-                    </button>
-                    <button
-                      className={
-                        "flex items-center " +
-                        (bookmarkState ? "text-green" : "text-white")
-                      }
-                      onClick={() => {
-                        bookmarkButton();
-                      }}
-                    >
-                      <svg width="22.5" height="30" viewBox="0 0 22.5 30">
-                        <path
-                          d="M0,30V2.813A2.812,2.812,0,0,1,2.813,0H19.688A2.812,2.812,0,0,1,22.5,2.813V30L11.25,23.437Z"
-                          className="fill-current"
-                        />
-                      </svg>
-
-                      <span className="text-3xl text-white ml-2">
-                        {bookmarkCount}
                       </span>
                     </button>
                   </div>
