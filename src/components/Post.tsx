@@ -229,7 +229,7 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li
-        className="w-[calc(20%-(50px/5))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(50%-(20px/2))]"
+        className="w-[calc(20%-(50px/5))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(10px/1))]"
         onClick={handleOpen}
       >
         {props.image && (
@@ -291,10 +291,10 @@ const Post: React.FC<PROPS> = (props) => {
         <Fade in={openModal}>
           <div
             style={getModalStyle()}
-            className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
+            className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
           >
             {props.image && (
-              <div className="w-8/12 h-full">
+              <div className="w-8/12 h-full md:w-full md:h-auto">
                 <img
                   src={props.image}
                   alt=""
@@ -302,7 +302,7 @@ const Post: React.FC<PROPS> = (props) => {
                 />
               </div>
             )}
-            <div className="ml-10 w-4/12">
+            <div className="ml-10 w-4/12 md:w-full md:ml-0">
               <div className="flex items-center">
                 <img
                   src={props.avatar}
