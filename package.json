@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "TAILWIND_MODE=watch craco start",
-    "build": "craco build",
+    "build": "TAILWIND_MODE=watch craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
