@@ -21,29 +21,31 @@ const MyPage: React.FC = () => {
   const user = useSelector(selectUser);
   const [posts, setPosts] = useState<PostObj[]>([]);
   useEffect(() => {
-    const unSub = db
-      .collection("posts")
-      .where("likedUser", "array-contains", user.uid)
-      .onSnapshot((snapshot) =>
-        setPosts(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            avatar: doc.data().avatar,
-            image: doc.data().image,
-            category: doc.data().category,
-            text: doc.data().text,
-            brandName: doc.data().brandName,
-            gearName: doc.data().gearName,
-            timestamp: doc.data().timestamp,
-            username: doc.data().username,
-            likeCount: doc.data().likeCount,
-            likedUser: doc.data().likedUser,
-          }))
-        )
-      );
-    return () => {
-      unSub();
-    };
+    if (user.uid !== "") {
+      const unSub = db
+        .collection("posts")
+        .where("likedUser", "array-contains", user.uid)
+        .onSnapshot((snapshot) =>
+          setPosts(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              avatar: doc.data().avatar,
+              image: doc.data().image,
+              category: doc.data().category,
+              text: doc.data().text,
+              brandName: doc.data().brandName,
+              gearName: doc.data().gearName,
+              timestamp: doc.data().timestamp,
+              username: doc.data().username,
+              likeCount: doc.data().likeCount,
+              likedUser: doc.data().likedUser,
+            }))
+          )
+        );
+      return () => {
+        unSub();
+      };
+    }
   }, [user.uid]);
 
   return (

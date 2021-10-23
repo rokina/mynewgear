@@ -81,23 +81,24 @@ const Post: React.FC<PROPS> = (props) => {
     };
   }, [props.postId]);
 
-  useEffect(() => {
-    db.collection("users")
-      .doc(user.uid)
-      .collection("likePosts")
-      .doc(props.postId)
-      .get()
-      .then((doc) => {
-        if (doc.data()?.post) {
-          setLikeState(true);
-        } else {
-          setLikeState(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [props.postId, user.uid]);
+  // TODO:いいねした投稿を取得 未ログインでもエラーが出ないようにする
+  // useEffect(() => {
+  //   db.collection("users")
+  //     .doc(user.uid)
+  //     .collection("likePosts")
+  //     .doc(props.postId)
+  //     .get()
+  //     .then((doc) => {
+  //       if (doc.data()?.post) {
+  //         setLikeState(true);
+  //       } else {
+  //         setLikeState(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [props.postId, user.uid]);
 
   const newComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -180,7 +181,7 @@ const Post: React.FC<PROPS> = (props) => {
           />
         )}
         <span className="absolute bottom-2 right-2">#{props.category}</span>
-        <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50">
+        <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center rounded-[20px] hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50 hover:backdrop-grayscale hover:backdrop-blur-[3px]">
           <div className="px-5">
             <span className="text-xl block break-all"># {props.brandName}</span>
             <span className="text-lg block break-all">{props.gearName}</span>
@@ -218,6 +219,7 @@ const Post: React.FC<PROPS> = (props) => {
         BackdropProps={{
           timeout: 500,
         }}
+        className="backdrop-blur-[20px] mr-[15px]"
       >
         <Fade in={openModal}>
           <div

@@ -1,41 +1,20 @@
-import {
-  Backdrop,
-  Button,
-  Fade,
-  IconButton,
-  Modal,
-  TextField,
-} from "@material-ui/core";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import firebase from "firebase/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { db, storage } from "../firebase";
 
-function getModalStyle() {
-  const width = 90;
-  const height = 90;
-  const top = 50;
-  const left = 50;
-
-  return {
-    width: `${width}%`,
-    height: `${height}%`,
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const TweetInput: React.FC = () => {
+const TweetInput: React.FC<{
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ openModal, setOpenModal }) => {
   const user = useSelector(selectUser);
   const [tweetImage, setTweetImage] = useState<File | null>(null);
   const [category, setCategory] = useState("");
   const [tweetMsg, setTweetMsg] = useState("");
   const [brandName, setBrandName] = useState("");
   const [gearName, setGearName] = useState("");
-  const [openModal, setOpenModal] = useState(false);
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -101,26 +80,15 @@ const TweetInput: React.FC = () => {
     setTweetMsg("");
     setBrandName("");
     setGearName("");
-  };
-  const handleOpen = () => {
-    setOpenModal(true);
+    setOpenModal(false);
   };
 
   const handleClose = () => {
     setOpenModal(false);
   };
   return (
+    // TODO:背景にブラーかけるとめっちゃいい
     <>
-      <div className="text-4xl text-center">
-        <p className="">my new gear...</p>
-        <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
-        <button
-          onClick={handleOpen}
-          className="text-xl font-bold border border-white rounded-lg py-2 px-4 mt-6 transition-colors hover:bg-white hover:text-black-light"
-        >
-          my new gear を投稿
-        </button>
-      </div>
       <Modal
         open={openModal}
         onClose={handleClose}
@@ -129,13 +97,36 @@ const TweetInput: React.FC = () => {
         BackdropProps={{
           timeout: 500,
         }}
+        className="backdrop-blur-[20px] mr-[15px]"
       >
         <Fade in={openModal}>
-          <div
-            style={getModalStyle()}
-            className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start"
-          >
+          <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendTweet}>
+              <Button type="button" variant="contained" color="primary">
+                <label className="text-white cursor-pointer">
+                  <input
+                    type="file"
+                    className="opacity-0 hidden absolute appearance-none"
+                    onChange={onChangeImageHandler}
+                  />
+                  画像アップロード
+                </label>
+              </Button>
+              {/* <FormControl fullWidth>
+                <InputLabel id="category-label">Age</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category"
+                  name="category"
+                  value={category}
+                  label="カテゴリ"
+                  onChange={setCategory(e.target.value)}
+                >
+                  <MenuItem value={"10"}>Ten</MenuItem>
+                  <MenuItem value={"20"}>Twenty</MenuItem>
+                  <MenuItem value={"30"}>Thirty</MenuItem>
+                </Select>
+              </FormControl> */}
               <TextField
                 variant="filled"
                 margin="normal"
@@ -189,8 +180,9 @@ const TweetInput: React.FC = () => {
                 className="bg-white rounded-lg"
                 onChange={(e) => setTweetMsg(e.target.value)}
               />
-              <IconButton>
-                <label className="text-white cursor-pointer">
+              {/* <IconButton>
+                <label className="text-black cursor-pointer">
+                  <span className="text-[18px]">画像アップロード</span>
                   <AddAPhotoIcon />
                   <input
                     type="file"
@@ -198,17 +190,19 @@ const TweetInput: React.FC = () => {
                     onChange={onChangeImageHandler}
                   />
                 </label>
-              </IconButton>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!tweetImage}
-              >
-                <span className={tweetImage ? "text-white" : "text-gray"}>
-                  my new gear を投稿
-                </span>
-              </Button>
+              </IconButton> */}
+              <div className="text-center mt-[10px]">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={!tweetImage}
+                >
+                  <span className={tweetImage ? "text-white" : "text-gray"}>
+                    my new gear を投稿
+                  </span>
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>
