@@ -1,4 +1,3 @@
-import { Backdrop, Fade, Modal } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
@@ -79,33 +78,23 @@ const Feed: React.FC = () => {
     setOpenModal(true);
   };
 
-  const handleClose = () => {
-    setOpenModal(false);
-  };
-
   return (
     <>
-      <TweetInput />
-      <button onClick={handleOpen}>ボタン</button>
-      <Modal
-        open={openModal}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-          <div
-            style={getModalStyle()}
-            className="relative bg-black border border-gray text-white rounded-2xl px-12 py-28 flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
-          >
-            {user.uid ? <p>ログイン済み</p> : <Auth />}
-            {/* {user.uid ? <InputForm /> : <Auth />} */}
-          </div>
-        </Fade>
-      </Modal>
+      <div className="text-4xl text-center">
+        <p>my new gear...</p>
+        <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
+        <button
+          onClick={handleOpen}
+          className="text-xl font-bold border border-white rounded-lg py-2 px-4 mt-6 transition-colors hover:bg-white hover:text-black-light"
+        >
+          my new gear を投稿
+        </button>
+      </div>
+      {user.uid ? (
+        <TweetInput openModal={openModal} setOpenModal={setOpenModal} />
+      ) : (
+        <Auth openModal={openModal} setOpenModal={setOpenModal} />
+      )}
       {/* 「my new gear投稿」ボタン押下時
       未ログイン＝ログインor新規登録モーダル
       ログイン済み＝投稿画面
