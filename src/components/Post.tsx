@@ -1,4 +1,15 @@
-import { Avatar, Backdrop, Fade, Modal } from "@material-ui/core";
+import {
+  Avatar,
+  Backdrop,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fade,
+  Modal,
+} from "@material-ui/core";
 import firebase from "firebase/app";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,6 +26,7 @@ interface PROPS {
   gearName: string;
   timestamp: any;
   username: string;
+  userID: string;
   likeCount: number;
   likedUser: [];
 }
@@ -47,6 +59,7 @@ const Post: React.FC<PROPS> = (props) => {
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [likeState, setLikeState] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<COMMENT[]>([
     {
@@ -167,6 +180,27 @@ const Post: React.FC<PROPS> = (props) => {
     setOpenModal(false);
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickClose = () => {
+    setOpen(false);
+  };
+
+  const postDelete = () => {
+    db.collection("posts")
+      .doc(props.postId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+    setOpen(false);
+  };
+
   return (
     <>
       <li
@@ -219,7 +253,7 @@ const Post: React.FC<PROPS> = (props) => {
         BackdropProps={{
           timeout: 500,
         }}
-        className="backdrop-blur-[20px] mr-[15px]"
+        className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
       >
         <Fade in={openModal}>
           <div
@@ -227,7 +261,7 @@ const Post: React.FC<PROPS> = (props) => {
             className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
           >
             {props.image && (
-              <div className="w-8/12 h-full md:w-full md:h-auto">
+              <div className="w-8/12 h-full md:w-full md:h-auto md:hidden">
                 <img
                   src={props.image}
                   alt=""
@@ -249,6 +283,34 @@ const Post: React.FC<PROPS> = (props) => {
                   {/* TODO: userIDも投稿に紐付けるようにする */}
                   <p className="text-gray text-x">@rokiroki</p>
                 </div>
+                {props.userID === user.uid && (
+                  <div className="text-right w-full">
+                    <Button variant="contained" onClick={handleClickOpen}>
+                      <span className="text-black">投稿を削除</span>
+                    </Button>
+                    <Dialog
+                      open={open}
+                      onClose={handleClickClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        {"投稿を削除しますか？"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          この操作は取り消せません。マイページ、あなたをフォローしているアカウントのタイムライン、Twitterの検索結果からツイートが削除されます。
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClickClose}>キャンセル</Button>
+                        <Button onClick={postDelete} autoFocus>
+                          削除
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+                )}
               </div>
               <div className="mt-5 pb-1 border-b border-gray">
                 <div className="flex items-center justify-between">
@@ -287,6 +349,15 @@ const Post: React.FC<PROPS> = (props) => {
                 </div>
 
                 <p className="text-white text-xl mt-8">{props.text}</p>
+                {props.image && (
+                  <div className="w-8/12 h-full mt-[20px] hidden md:w-full md:h-auto md:block">
+                    <img
+                      src={props.image}
+                      alt=""
+                      className="rounded-[20px] m-auto max-w-full max-h-full"
+                    />
+                  </div>
+                )}
                 <p className="text-gray text-sm text-right mt-3">
                   {new Date(props.timestamp?.toDate()).toLocaleString()}
                 </p>
