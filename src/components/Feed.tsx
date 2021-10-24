@@ -17,6 +17,7 @@ const Feed: React.FC = () => {
     gearName: string;
     timestamp: any;
     username: string;
+    userID: string;
     likeCount: number;
     likedUser: [];
   }
@@ -39,6 +40,7 @@ const Feed: React.FC = () => {
             gearName: doc.data().gearName,
             timestamp: doc.data().timestamp,
             username: doc.data().username,
+            userID: doc.data().userID,
             likeCount: doc.data().likeCount,
             likedUser: doc.data().likedUser,
           }))
@@ -101,6 +103,7 @@ const Feed: React.FC = () => {
                 gearName={post.gearName}
                 timestamp={post.timestamp}
                 username={post.username}
+                userID={post.userID}
                 likeCount={post.likeCount}
                 likedUser={post.likedUser}
               />
@@ -124,6 +127,7 @@ const Feed: React.FC = () => {
                 gearName={post.gearName}
                 timestamp={post.timestamp}
                 username={post.username}
+                userID={post.userID}
                 likeCount={post.likeCount}
                 likedUser={post.likedUser}
               />
@@ -147,6 +151,7 @@ const Feed: React.FC = () => {
                 gearName={post.gearName}
                 timestamp={post.timestamp}
                 username={post.username}
+                userID={post.userID}
                 likeCount={post.likeCount}
                 likedUser={post.likedUser}
               />

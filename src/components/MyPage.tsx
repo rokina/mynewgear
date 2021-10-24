@@ -15,11 +15,13 @@ const MyPage: React.FC = () => {
     gearName: string;
     timestamp: any;
     username: string;
+    userID: string;
     likeCount: number;
     likedUser: [];
   }
   const user = useSelector(selectUser);
   const [posts, setPosts] = useState<PostObj[]>([]);
+  const [posts2, setPosts2] = useState<PostObj[]>([]);
   useEffect(() => {
     if (user.uid !== "") {
       const unSub = db
@@ -37,6 +39,35 @@ const MyPage: React.FC = () => {
               gearName: doc.data().gearName,
               timestamp: doc.data().timestamp,
               username: doc.data().username,
+              userID: doc.data().userID,
+              likeCount: doc.data().likeCount,
+              likedUser: doc.data().likedUser,
+            }))
+          )
+        );
+      return () => {
+        unSub();
+      };
+    }
+  }, [user.uid]);
+  useEffect(() => {
+    if (user.uid !== "") {
+      const unSub = db
+        .collection("posts")
+        .where("userID", "==", user.uid)
+        .onSnapshot((snapshot) =>
+          setPosts2(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              avatar: doc.data().avatar,
+              image: doc.data().image,
+              category: doc.data().category,
+              text: doc.data().text,
+              brandName: doc.data().brandName,
+              gearName: doc.data().gearName,
+              timestamp: doc.data().timestamp,
+              username: doc.data().username,
+              userID: doc.data().userID,
               likeCount: doc.data().likeCount,
               likedUser: doc.data().likedUser,
             }))
@@ -66,6 +97,31 @@ const MyPage: React.FC = () => {
                 gearName={post.gearName}
                 timestamp={post.timestamp}
                 username={post.username}
+                userID={post.userID}
+                likeCount={post.likeCount}
+                likedUser={post.likedUser}
+              />
+            ))}
+          </ul>
+        )}
+      </section>
+      <section className="mt-5">
+        <h2 className="text-lg">自分の投稿</h2>
+        {posts2[0]?.id && (
+          <ul className="flex flex-wrap -m-2 mt-0">
+            {posts2.map((post) => (
+              <Post
+                key={post.id}
+                postId={post.id}
+                avatar={post.avatar}
+                image={post.image}
+                category={post.category}
+                text={post.text}
+                brandName={post.brandName}
+                gearName={post.gearName}
+                timestamp={post.timestamp}
+                username={post.username}
+                userID={post.userID}
                 likeCount={post.likeCount}
                 likedUser={post.likedUser}
               />

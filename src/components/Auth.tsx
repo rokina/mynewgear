@@ -149,7 +149,7 @@ const Auth: React.FC<{
       BackdropProps={{
         timeout: 500,
       }}
-      className="backdrop-blur-[20px] mr-[15px]"
+      className="backdrop-blur-[20px] lg:mr-[15px] md:mr-0"
     >
       <Fade in={openModal}>
         <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
