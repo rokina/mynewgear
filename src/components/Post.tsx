@@ -37,6 +37,7 @@ interface COMMENT {
   text: string;
   timestamp: any;
   username: string;
+  userID: string;
 }
 
 function getModalStyle() {
@@ -67,6 +68,7 @@ const Post: React.FC<PROPS> = (props) => {
       avatar: "",
       text: "",
       username: "",
+      userID: "",
       timestamp: null,
     },
   ]);
@@ -84,6 +86,7 @@ const Post: React.FC<PROPS> = (props) => {
             avatar: doc.data().avatar,
             text: doc.data().text,
             username: doc.data().username,
+            userID: doc.data().userID,
             timestamp: doc.data().timestamp,
           }))
         );
@@ -120,6 +123,7 @@ const Post: React.FC<PROPS> = (props) => {
       text: comment,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       username: user.displayName,
+      userID: user.uid,
     });
     setComment("");
   };
@@ -280,8 +284,9 @@ const Post: React.FC<PROPS> = (props) => {
                   <p className="text-white text-2xl font-bold">
                     {props.username}
                   </p>
-                  {/* TODO: userIDも投稿に紐付けるようにする */}
-                  <p className="text-gray text-x">@rokiroki</p>
+                  <p className="text-gray text-x w-[5em] overflow-hidden overflow-ellipsis">
+                    @{props.userID}
+                  </p>
                 </div>
                 {props.userID === user.uid && (
                   <div className="text-right w-full">
@@ -322,7 +327,8 @@ const Post: React.FC<PROPS> = (props) => {
                     <button
                       className={
                         "flex items-center " +
-                        (likeState ? "text-red" : "text-white")
+                        (likeState ? "text-red " : "text-white ") +
+                        (!user.uid ? "pointer-events-none" : "")
                       }
                       onClick={() => {
                         likeButton();
@@ -374,9 +380,8 @@ const Post: React.FC<PROPS> = (props) => {
                       <div className="ml-2">
                         <div className="flex items-center">
                           <span className="text-base">{com.username}</span>
-                          <span className="text-xs ml-1 text-gray">
-                            {/* TODO: ユーザーID表示する */}
-                            @user_id
+                          <span className="text-xs ml-1 text-gray w-[5em] overflow-hidden overflow-ellipsis">
+                            @{com.userID}
                           </span>
                           <span className="text-xs ml-1 text-gray">
                             {new Date(com.timestamp?.toDate()).toLocaleString()}
@@ -388,28 +393,36 @@ const Post: React.FC<PROPS> = (props) => {
                   ))}
                 </>
               )}
-              <form onSubmit={newComment}>
-                <div className="flex items-center mt-5">
-                  <Avatar src={user.photoUrl} />
-                  <textarea
-                    name=""
-                    id=""
-                    placeholder="返信を投稿"
-                    className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-white w-72"
-                    value={comment}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                      setComment(e.target.value)
-                    }
-                  ></textarea>
-                  <button
-                    className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
-                    disabled={!comment}
-                    type="submit"
-                  >
-                    返信
-                  </button>
+              {user.uid ? (
+                <form onSubmit={newComment}>
+                  <div className="flex items-center mt-5">
+                    <Avatar src={user.photoUrl} />
+                    <textarea
+                      name=""
+                      id=""
+                      placeholder="返信を投稿"
+                      className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-black w-72"
+                      value={comment}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        setComment(e.target.value)
+                      }
+                    ></textarea>
+                    <button
+                      className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
+                      disabled={!comment}
+                      type="submit"
+                    >
+                      返信
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div>
+                  <p className="text-white mt-[15px] text-[14px]">
+                    ログインするとコメントを送ることができます
+                  </p>
                 </div>
-              </form>
+              )}
             </div>
           </div>
         </Fade>

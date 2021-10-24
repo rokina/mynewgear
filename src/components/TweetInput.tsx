@@ -99,7 +99,7 @@ const TweetInput: React.FC<{
         BackdropProps={{
           timeout: 500,
         }}
-        className="backdrop-blur-[20px] lg:mr-[15px] md:mr-0"
+        className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
       >
         <Fade in={openModal}>
           <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
@@ -182,17 +182,6 @@ const TweetInput: React.FC<{
                 className="bg-white rounded-lg"
                 onChange={(e) => setTweetMsg(e.target.value)}
               />
-              {/* <IconButton>
-                <label className="text-black cursor-pointer">
-                  <span className="text-[18px]">画像アップロード</span>
-                  <AddAPhotoIcon />
-                  <input
-                    type="file"
-                    className="opacity-0 hidden absolute appearance-none"
-                    onChange={onChangeImageHandler}
-                  />
-                </label>
-              </IconButton> */}
               <div className="text-center mt-[10px]">
                 <Button
                   type="submit"

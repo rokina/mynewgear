@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
-import { auth } from "../firebase";
 import Icon from "../img/icon_user.svg";
 import Logo from "../img/logo.svg";
+import Auth from "./Auth";
 
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
   return (
     <header className="bg-black-dark py-[10px] px-[20px]">
       <h1 className="flex items-center justify-between">
@@ -16,36 +21,17 @@ const Header: React.FC = () => {
         </Link>
         <nav>
           <ul className="text-white flex items-center space-x-4 text-base">
-            <li>
-              <Link to="/?cat=guitar">#guitar</Link>
-            </li>
-            <li>
-              <Link to="/?cat=bass">#bass</Link>
-            </li>
-            <li>
-              <Link to="/?cat=other">#other</Link>
-            </li>
             <li className="w-9 rounded-full overflow-hidden">
-              <Link to="/mypage/">
-                <img
-                  src={user.photoUrl ? user.photoUrl : Icon}
-                  alt=""
-                  // onClick={async () => {
-                  //   await auth.signOut();
-                  // }}
-                />
-              </Link>
-            </li>
-            <li className="w-9 rounded-full overflow-hidden">
-              <Link to="">
-                <img
-                  src={user.photoUrl ? user.photoUrl : Icon}
-                  alt=""
-                  onClick={async () => {
-                    await auth.signOut();
-                  }}
-                />
-              </Link>
+              {user.uid ? (
+                <Link to="/mypage/">
+                  <img src={user.photoUrl ? user.photoUrl : Icon} alt="" />
+                </Link>
+              ) : (
+                <>
+                  <img src={Icon} alt="" onClick={handleOpen} />
+                  <Auth openModal={openModal} setOpenModal={setOpenModal} />
+                </>
+              )}
             </li>
           </ul>
         </nav>

@@ -82,10 +82,6 @@ const Feed: React.FC = () => {
       ) : (
         <Auth openModal={openModal} setOpenModal={setOpenModal} />
       )}
-      {/* 「my new gear投稿」ボタン押下時
-      未ログイン＝ログインor新規登録モーダル
-      ログイン済み＝投稿画面
-      TweetInputからフォームだけ分離する */}
 
       <section className="mt-5">
         <h2 className="text-lg">#mynewgear</h2>

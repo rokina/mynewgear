@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import Post from "./Post";
 
 const MyPage: React.FC = () => {
@@ -129,6 +130,18 @@ const MyPage: React.FC = () => {
           </ul>
         )}
       </section>
+      <div className="mt-[50px] text-center">
+        <Link to="/">
+          <button
+            className="text-white"
+            onClick={async () => {
+              await auth.signOut();
+            }}
+          >
+            ログアウト
+          </button>
+        </Link>
+      </div>
     </>
   );
 };

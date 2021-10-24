@@ -98,6 +98,7 @@ const Auth: React.FC<{
     await auth
       .signInWithPopup(twitter_provider)
       .then((res) => {
+        setOpenModal(false);
         console.log(res);
       })
       .catch((err) => alert(err.message));
@@ -105,10 +106,20 @@ const Auth: React.FC<{
   const signInGoogle = async () => {
     await auth
       .signInWithPopup(google_provider)
+      .then((res) => {
+        setOpenModal(false);
+        console.log(res);
+      })
       .catch((err) => alert(err.message));
   };
   const signInEmail = async () => {
-    await auth.signInWithEmailAndPassword(email, password);
+    await auth
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        setOpenModal(false);
+        console.log(res);
+      })
+      .catch((err) => alert(err.message));
   };
   const signUpEmail = async () => {
     const authUser = await auth.createUserWithEmailAndPassword(email, password);
@@ -140,7 +151,6 @@ const Auth: React.FC<{
   };
 
   return (
-    // TODO:背景にブラーかけるとめっちゃいい
     <Modal
       open={openModal}
       onClose={handleClose}
@@ -149,7 +159,7 @@ const Auth: React.FC<{
       BackdropProps={{
         timeout: 500,
       }}
-      className="backdrop-blur-[20px] lg:mr-[15px] md:mr-0"
+      className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
     >
       <Fade in={openModal}>
         <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
