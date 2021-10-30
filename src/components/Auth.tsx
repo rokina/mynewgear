@@ -16,7 +16,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../features/userSlice";
 import { auth, google_provider, storage, twitter_provider } from "../firebase";
-import styles from "./Auth.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -192,12 +191,12 @@ const Auth: React.FC<{
                           fontSize="large"
                           className={
                             avatarImage
-                              ? styles.login_addIconLoaded
-                              : styles.login_addIcon
+                              ? "cursor-pointer text-white"
+                              : "cursor-pointer text-gray"
                           }
                         />
                         <input
-                          className={styles.login_hiddenIcon}
+                          className="text-center hidden"
                           type="file"
                           onChange={onChangeImageHandler}
                         />
@@ -270,7 +269,7 @@ const Auth: React.FC<{
               <Grid container>
                 <Grid item xs>
                   <span
-                    className={styles.login_reset}
+                    className="cursor-pointer"
                     onClick={() => setOpenModal(true)}
                   >
                     Forgot password ?
@@ -278,7 +277,7 @@ const Auth: React.FC<{
                 </Grid>
                 <Grid item>
                   <span
-                    className={styles.login_toggleMode}
+                    className="cursor-pointer text-blue"
                     onClick={() => setIsLogin(!isLogin)}
                   >
                     {isLogin ? "Create new account ?" : "Back to login"}
@@ -310,7 +309,7 @@ const Auth: React.FC<{
 
             {/* <Modal open={openModal} onClose={() => setOpenModal(false)}>
                 <div style={getModalStyle()} className={classes.modal}>
-                  <div className={styles.login_modal}>
+                  <div className="text-center">
                     <TextField
                       InputLabelProps={{
                         shrink: true,
