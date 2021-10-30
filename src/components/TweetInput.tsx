@@ -89,7 +89,6 @@ const TweetInput: React.FC<{
     setOpenModal(false);
   };
   return (
-    // TODO:背景にブラーかけるとめっちゃいい
     <>
       <Modal
         open={openModal}
