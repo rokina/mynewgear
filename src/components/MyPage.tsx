@@ -82,9 +82,9 @@ const MyPage: React.FC = () => {
 
   return (
     <>
-      <section className="mt-5">
-        <h2 className="text-lg">いいねした投稿</h2>
-        {posts[0]?.id && (
+      {posts[0]?.id && (
+        <section className="mt-5">
+          <h2 className="text-lg">いいねした投稿</h2>
           <ul className="flex flex-wrap -m-2 mt-0">
             {posts.map((post) => (
               <Post
@@ -104,11 +104,11 @@ const MyPage: React.FC = () => {
               />
             ))}
           </ul>
-        )}
-      </section>
-      <section className="mt-5">
-        <h2 className="text-lg">自分の投稿</h2>
-        {posts2[0]?.id && (
+        </section>
+      )}
+      {posts2[0]?.id && (
+        <section className="mt-5">
+          <h2 className="text-lg">自分の投稿</h2>
           <ul className="flex flex-wrap -m-2 mt-0">
             {posts2.map((post) => (
               <Post
@@ -128,8 +128,8 @@ const MyPage: React.FC = () => {
               />
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
       <div className="mt-[50px] text-center">
         <Link to="/">
           <button

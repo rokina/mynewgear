@@ -83,9 +83,9 @@ const Feed: React.FC = () => {
         <Auth openModal={openModal} setOpenModal={setOpenModal} />
       )}
 
-      <section className="mt-5">
-        <h2 className="text-lg">#mynewgear</h2>
-        {posts[0]?.id && (
+      {posts[0]?.id && (
+        <section className="mt-5">
+          <h2 className="text-lg">#mynewgear</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
               <Post
@@ -105,11 +105,11 @@ const Feed: React.FC = () => {
               />
             ))}
           </ul>
-        )}
-      </section>
-      <section className="mt-8 mb-8">
-        <h2 className="text-lg">#guitar</h2>
-        {posts_guitar[0]?.id && (
+        </section>
+      )}
+      {posts_guitar[0]?.id && (
+        <section className="mt-8 mb-8">
+          <h2 className="text-lg">#guitar</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts_guitar.map((post) => (
               <Post
@@ -129,11 +129,11 @@ const Feed: React.FC = () => {
               />
             ))}
           </ul>
-        )}
-      </section>
-      <section className="mt-8 mb-8">
-        <h2 className="text-lg">#bass</h2>
-        {posts_bass[0]?.id && (
+        </section>
+      )}
+      {posts_bass[0]?.id && (
+        <section className="mt-8 mb-8">
+          <h2 className="text-lg">#bass</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts_bass.map((post) => (
               <Post
@@ -153,8 +153,8 @@ const Feed: React.FC = () => {
               />
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
     </>
   );
 };
