@@ -1,4 +1,14 @@
-import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
+import {
+  Backdrop,
+  Button,
+  Fade,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import firebase from "firebase/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,6 +25,17 @@ const TweetInput: React.FC<{
   const [tweetMsg, setTweetMsg] = useState("");
   const [brandName, setBrandName] = useState("");
   const [gearName, setGearName] = useState("");
+
+  const onChangeCategoryHandler = (
+    e: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setCategory(e.target.value as string);
+  };
+  const onChangeBrandNameHandler = (
+    e: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setBrandName(e.target.value as string);
+  };
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -103,60 +124,50 @@ const TweetInput: React.FC<{
         <Fade in={openModal}>
           <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendTweet}>
-              <Button type="button" variant="contained" color="primary">
-                <label className="text-white cursor-pointer">
-                  <input
-                    type="file"
-                    className="opacity-0 hidden absolute appearance-none"
-                    onChange={onChangeImageHandler}
-                  />
-                  画像アップロード
-                </label>
-              </Button>
-              {/* <FormControl fullWidth>
-                <InputLabel id="category-label">Age</InputLabel>
+              <div className="mb-[5px]">
+                <Button type="button" variant="contained" color="primary">
+                  <label className="text-white cursor-pointer">
+                    <input
+                      type="file"
+                      className="opacity-0 hidden absolute appearance-none"
+                      onChange={onChangeImageHandler}
+                    />
+                    画像アップロード
+                  </label>
+                </Button>
+              </div>
+              <FormControl fullWidth variant="filled" margin="dense">
+                <InputLabel id="category-select-label">カテゴリー</InputLabel>
                 <Select
-                  labelId="category-label"
-                  id="category"
-                  name="category"
+                  labelId="category-select-label"
+                  id="category-select"
                   value={category}
-                  label="カテゴリ"
-                  onChange={setCategory(e.target.value)}
+                  label="カテゴリー"
+                  onChange={onChangeCategoryHandler}
+                  required
                 >
-                  <MenuItem value={"10"}>Ten</MenuItem>
-                  <MenuItem value={"20"}>Twenty</MenuItem>
-                  <MenuItem value={"30"}>Thirty</MenuItem>
+                  <MenuItem value={"guitar"}>Guitar</MenuItem>
+                  <MenuItem value={"bass"}>Bass</MenuItem>
+                  <MenuItem value={"other"}>Other</MenuItem>
                 </Select>
-              </FormControl> */}
+              </FormControl>
+              <FormControl fullWidth variant="filled" margin="dense">
+                <InputLabel id="brandName-select-label">ブランド名</InputLabel>
+                <Select
+                  labelId="brandName-select-label"
+                  id="brandName-select"
+                  value={brandName}
+                  label="ブランド名"
+                  onChange={onChangeBrandNameHandler}
+                  required
+                >
+                  <MenuItem value={"Gibson"}>Gibson</MenuItem>
+                  <MenuItem value={"Fender"}>Fender</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                id="category"
-                label="カテゴリ"
-                name="category"
-                autoComplete="category"
-                value={category}
-                className="bg-white rounded-lg"
-                onChange={(e) => setCategory(e.target.value)}
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                id="brandName"
-                label="ブランド"
-                name="brandName"
-                autoComplete="brandName"
-                value={brandName}
-                className="bg-white rounded-lg"
-                onChange={(e) => setBrandName(e.target.value)}
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
+                margin="dense"
                 required
                 fullWidth
                 id="gearName"
@@ -164,21 +175,19 @@ const TweetInput: React.FC<{
                 name="gearName"
                 autoComplete="gearName"
                 value={gearName}
-                className="bg-white rounded-lg"
                 onChange={(e) => setGearName(e.target.value)}
               />
               <TextField
                 variant="filled"
-                margin="normal"
-                required
+                margin="dense"
                 fullWidth
                 id="tweetMsg"
-                label="コメント"
+                label="機材紹介コメント"
                 name="tweetMsg"
                 autoComplete="tweetMsg"
                 multiline={true}
+                minRows={3}
                 value={tweetMsg}
-                className="bg-white rounded-lg"
                 onChange={(e) => setTweetMsg(e.target.value)}
               />
               <div className="text-center mt-[10px]">
@@ -186,9 +195,15 @@ const TweetInput: React.FC<{
                   type="submit"
                   variant="contained"
                   color="primary"
-                  disabled={!tweetImage}
+                  disabled={!tweetImage || !category || !brandName || !gearName}
                 >
-                  <span className={tweetImage ? "text-white" : "text-gray"}>
+                  <span
+                    className={
+                      tweetImage || category || brandName || gearName
+                        ? "text-white"
+                        : "text-gray"
+                    }
+                  >
                     my new gear を投稿
                   </span>
                 </Button>
