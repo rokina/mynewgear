@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { db } from "../firebase";
+import close_icon from "../img/icon_close.svg";
 
 interface PROPS {
   postId: string;
@@ -425,6 +426,18 @@ const Post: React.FC<PROPS> = (props) => {
                 </div>
               )}
             </div>
+            <button
+              onClick={handleClose}
+              className="text-white absolute top-[25px] right-[25px]"
+            >
+              <img
+                src={close_icon}
+                alt=""
+                width="50"
+                height="50"
+                className="md:w-[40px] md:h-[40px]"
+              />
+            </button>
           </div>
         </Fade>
       </Modal>
