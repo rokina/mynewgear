@@ -14,7 +14,7 @@ import firebase from "firebase/app";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
-import { db } from "../firebase";
+import { db, storageRef } from "../firebase";
 import close_icon from "../img/icon_close.svg";
 
 interface PROPS {
@@ -195,6 +195,30 @@ const Post: React.FC<PROPS> = (props) => {
   };
 
   const postDelete = () => {
+    db.collection("posts")
+      .doc(props.postId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const pattern = /images.*jpg/g; //投稿画像はWebPに変換する予定なので将来的にはWebPを指定する
+          const data = doc.data()!.image;
+          const result = data.match(pattern);
+
+          const replaced = result[0].replace("%2F", "/");
+
+          const desertRef = storageRef.child(replaced);
+
+          desertRef
+            .delete()
+            .then(function () {})
+            .catch(function (error) {});
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
     db.collection("posts")
       .doc(props.postId)
       .delete()
