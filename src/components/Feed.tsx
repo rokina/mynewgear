@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { db } from "../firebase";
+import classes from "../scss/feed.module.scss";
 import Auth from "./Auth";
 import Post from "./Post";
 import TweetInput from "./TweetInput";
@@ -70,11 +71,25 @@ const Feed: React.FC = () => {
       <div className="text-4xl text-center">
         <p>my new gear...</p>
         <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
-        <button
-          onClick={handleOpen}
-          className="text-xl font-bold border border-white rounded-lg py-2 px-4 mt-6 transition-colors hover:bg-white hover:text-black-light"
-        >
-          my new gear を投稿
+        <button className={classes.btn} onClick={handleOpen}>
+          <svg width="277" height="62">
+            <defs>
+              <linearGradient id="grad1">
+                <stop offset="0%" stop-color="#FF8282" />
+                <stop offset="100%" stop-color="#E178ED" />
+              </linearGradient>
+            </defs>
+            <rect
+              x="5"
+              y="5"
+              rx="25"
+              fill="none"
+              stroke="url(#grad1)"
+              width="266"
+              height="50"
+            ></rect>
+          </svg>
+          <span>my new gear を投稿</span>
         </button>
       </div>
       {user.uid ? (
