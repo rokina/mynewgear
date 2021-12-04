@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Post from "../components/Post";
 import { selectUser } from "../features/userSlice";
 import { auth, db } from "../firebase";
-import Post from "./Post";
 
 const MyPage: React.FC = () => {
   interface PostObj {
