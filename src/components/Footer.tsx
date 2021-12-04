@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
       <small className="text-white">&copy; MyNewGear Inc.</small>
       <div className="text-white absolute right-[20px] text-[12px]">
         <Link to="/terms/">利用規約</Link>
-        <Link to="/terms/" className="ml-[15px]">
+        <Link to="/privacy/" className="ml-[15px]">
           プライバシーポリシー
         </Link>
       </div>

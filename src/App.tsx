@@ -8,6 +8,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { login, logout } from "./features/userSlice";
 import { auth } from "./firebase";
 import MyPage from "./pages/MyPage";
+import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 
 const App: React.FC = () => {
@@ -39,7 +40,8 @@ const App: React.FC = () => {
           <main className="text-white px-[80px] py-12 bg-black min-h-[calc(100vh-104px)] lg:px-[50px] md:px-[20px]">
             <Route exact path="/" component={Feed} />
             <Route path="/mypage/" component={MyPage} />
-            <Route path="/terms/" component={Terms}></Route>
+            <Route path="/terms/" component={Terms} />
+            <Route path="/privacy/" component={Privacy} />
           </main>
           <Footer />
         </ScrollToTop>
