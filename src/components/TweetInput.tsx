@@ -12,6 +12,7 @@ import {
 import firebase from "firebase/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectUser } from "../features/userSlice";
 import { db, storage } from "../firebase";
 
@@ -191,6 +192,16 @@ const TweetInput: React.FC<{
                 onChange={(e) => setTweetMsg(e.target.value)}
               />
               <div className="text-center mt-[10px]">
+                <p className="mb-[5px]">
+                  <Link
+                    to="/privacy/"
+                    target="_blank"
+                    className="underline hover:no-underline"
+                  >
+                    利用規約
+                  </Link>
+                  に同意して
+                </p>
                 <Button
                   type="submit"
                   variant="contained"
@@ -199,7 +210,7 @@ const TweetInput: React.FC<{
                 >
                   <span
                     className={
-                      tweetImage || category || brandName || gearName
+                      tweetImage && category && brandName && gearName
                         ? "text-white"
                         : "text-gray"
                     }
