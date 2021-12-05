@@ -12,10 +12,22 @@ import {
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CameraIcon from "@material-ui/icons/Camera";
 import EmailIcon from "@material-ui/icons/Email";
+import SendIcon from "@material-ui/icons/Send";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../features/userSlice";
 import { auth, google_provider, storage, twitter_provider } from "../firebase";
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,27 +84,26 @@ const Auth: React.FC<{
   const [username, setUsername] = useState("");
   const [avatarImage, setAvatarImage] = useState<File | null>(null);
   const [isLogin, setIsLogin] = useState(true);
-  // const [openModal, setOpenModal] = useState(false);
-  // const [resetEmail, setResetEmail] = useState("");
+  const [resetEmailOpenModal, setResetEmailOpenModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
       setAvatarImage(e.target.files![0]);
       e.target.value = "";
     }
   };
-  // TODO:リセットメールのモーダルと競合している 別モーダルにして対応
-  // const sendResetEmail = async (e: React.MouseEvent<HTMLElement>) => {
-  //   await auth
-  //     .sendPasswordResetEmail(resetEmail)
-  //     .then(() => {
-  //       setOpenModal(false);
-  //       setResetEmail("");
-  //     })
-  //     .catch((err) => {
-  //       alert(err.message);
-  //       setResetEmail("");
-  //     });
-  // };
+  const sendResetEmail = async (e: React.MouseEvent<HTMLElement>) => {
+    await auth
+      .sendPasswordResetEmail(resetEmail)
+      .then(() => {
+        setResetEmailOpenModal(false);
+        setResetEmail("");
+      })
+      .catch((err) => {
+        alert(err.message);
+        setResetEmail("");
+      });
+  };
   const signInTwitter = async () => {
     await auth
       .signInWithPopup(twitter_provider)
@@ -175,7 +186,7 @@ const Auth: React.FC<{
                     required
                     fullWidth
                     id="username"
-                    label="Username"
+                    label="ユーザー名"
                     name="username"
                     autoComplete="username"
                     autoFocus
@@ -211,7 +222,7 @@ const Auth: React.FC<{
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="メールアドレス"
                 name="email"
                 autoComplete="email"
                 value={email}
@@ -225,7 +236,7 @@ const Auth: React.FC<{
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="パスワード"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -264,15 +275,15 @@ const Auth: React.FC<{
                       }
                 }
               >
-                {isLogin ? "Login" : "Register"}
+                {isLogin ? "ログイン" : "登録"}
               </Button>
               <Grid container>
                 <Grid item xs>
                   <span
                     className="cursor-pointer"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => setResetEmailOpenModal(true)}
                   >
-                    Forgot password ?
+                    パスワードを忘れた方
                   </span>
                 </Grid>
                 <Grid item>
@@ -280,7 +291,7 @@ const Auth: React.FC<{
                     className="cursor-pointer text-blue"
                     onClick={() => setIsLogin(!isLogin)}
                   >
-                    {isLogin ? "Create new account ?" : "Back to login"}
+                    {isLogin ? "アカウントを新規作成" : "ログインに戻る"}
                   </span>
                 </Grid>
               </Grid>
@@ -293,7 +304,7 @@ const Auth: React.FC<{
                 startIcon={<CameraIcon />}
                 onClick={signInTwitter}
               >
-                SignIn with Twitter
+                Twitterでログイン
               </Button>
               <Button
                 fullWidth
@@ -303,31 +314,34 @@ const Auth: React.FC<{
                 startIcon={<CameraIcon />}
                 onClick={signInGoogle}
               >
-                SignIn with Google
+                Googleでログイン
               </Button>
             </form>
 
-            {/* <Modal open={openModal} onClose={() => setOpenModal(false)}>
-                <div style={getModalStyle()} className={classes.modal}>
-                  <div className="text-center">
-                    <TextField
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      type="email"
-                      name="email"
-                      label="Reset E-mail"
-                      value={resetEmail}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setResetEmail(e.target.value);
-                      }}
-                    />
-                    <IconButton onClick={sendResetEmail}>
-                      <SendIcon />
-                    </IconButton>
-                  </div>
+            <Modal
+              open={resetEmailOpenModal}
+              onClose={() => setResetEmailOpenModal(false)}
+            >
+              <div style={getModalStyle()} className={classes.modal}>
+                <div className="text-center">
+                  <TextField
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    type="email"
+                    name="email"
+                    label="メールアドレスを入力"
+                    value={resetEmail}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setResetEmail(e.target.value);
+                    }}
+                  />
+                  <IconButton onClick={sendResetEmail}>
+                    <SendIcon />
+                  </IconButton>
                 </div>
-              </Modal> */}
+              </div>
+            </Modal>
           </div>
         </div>
       </Fade>
