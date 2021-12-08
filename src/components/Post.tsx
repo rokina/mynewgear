@@ -16,6 +16,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { db, storageRef } from "../firebase";
 import close_icon from "../img/icon_close.svg";
+import { ReactComponent as IconComment } from "../img/icon_comment.svg";
+import { ReactComponent as IconFavorite } from "../img/icon_favorite.svg";
 
 interface PROPS {
   postId: string;
@@ -251,24 +253,15 @@ const Post: React.FC<PROPS> = (props) => {
             <span className="text-lg block break-all">{props.gearName}</span>
             <div className="absolute right-4 bottom-3 flex items-center">
               <span className="text-white text-xl flex items-center">
-                {/* TODO:SVGファイルの扱い方考える */}
-                <svg width="20" height="18.35" viewBox="0 0 30 27.525">
-                  <path
-                    d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
-                    transform="translate(-3 -4.5)"
-                    className="fill-current"
-                  />
-                </svg>
+                <div className="w-[20px] h-auto">
+                  <IconFavorite />
+                </div>
                 <span className="ml-1.5">{likeCount}</span>
               </span>
               <span className="text-white text-xl flex items-center ml-3">
-                <svg width="20" height="17.5" viewBox="0 0 20 17.5">
-                  <path
-                    d="M10,2.25c-5.523,0-10,3.637-10,8.125A7.212,7.212,0,0,0,2.227,15.48,9.938,9.938,0,0,1,.086,19.223a.311.311,0,0,0-.059.34.306.306,0,0,0,.285.188A8.933,8.933,0,0,0,5.8,17.742,11.913,11.913,0,0,0,10,18.5c5.523,0,10-3.637,10-8.125S15.523,2.25,10,2.25Z"
-                    transform="translate(0 -2.25)"
-                    className="fill-current"
-                  />
-                </svg>
+                <div className="w-[20px] h-auto">
+                  <IconComment />
+                </div>
                 <span className="ml-1.5">{comments.length}</span>
               </span>
             </div>
@@ -360,18 +353,9 @@ const Post: React.FC<PROPS> = (props) => {
                         likeButton();
                       }}
                     >
-                      <svg
-                        id="icon_link"
-                        width="30"
-                        height="27.525"
-                        viewBox="0 0 30 27.525"
-                      >
-                        <path
-                          d="M18,32.025l-2.175-1.98C8.1,23.04,3,18.42,3,12.75A8.17,8.17,0,0,1,11.25,4.5,8.983,8.983,0,0,1,18,7.635,8.983,8.983,0,0,1,24.75,4.5,8.17,8.17,0,0,1,33,12.75c0,5.67-5.1,10.29-12.825,17.31Z"
-                          transform="translate(-3 -4.5)"
-                          className="fill-current"
-                        />
-                      </svg>
+                      <div className="w-[30px] h-auto">
+                        <IconFavorite />
+                      </div>
 
                       <span className="text-3xl text-white ml-2">
                         {likeCount}
