@@ -26,6 +26,7 @@ const TweetInput: React.FC<{
   const [tweetMsg, setTweetMsg] = useState("");
   const [brandName, setBrandName] = useState("");
   const [gearName, setGearName] = useState("");
+  const [preview, setPreview] = useState("");
 
   const onChangeCategoryHandler = (
     e: React.ChangeEvent<{ value: unknown }>
@@ -41,6 +42,7 @@ const TweetInput: React.FC<{
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
       setTweetImage(e.target.files![0]);
+      setPreview(window.URL.createObjectURL(e.target.files![0]));
       e.target.value = "";
     }
   };
@@ -125,7 +127,7 @@ const TweetInput: React.FC<{
         <Fade in={openModal}>
           <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendTweet}>
-              <div className="mb-[5px]">
+              <div className="mb-[5px] flex justify-around items-center">
                 <Button type="button" variant="contained" color="primary">
                   <label className="text-white cursor-pointer">
                     <input
@@ -136,6 +138,13 @@ const TweetInput: React.FC<{
                     画像アップロード
                   </label>
                 </Button>
+                {preview && (
+                  <img
+                    src={preview}
+                    alt=""
+                    className="max-w-[200px] max-h-[200px]"
+                  />
+                )}
               </div>
               <FormControl fullWidth variant="filled" margin="dense">
                 <InputLabel id="category-select-label">カテゴリー</InputLabel>
