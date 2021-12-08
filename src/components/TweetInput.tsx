@@ -132,6 +132,7 @@ const TweetInput: React.FC<{
                   <label className="text-white cursor-pointer">
                     <input
                       type="file"
+                      accept="image/*"
                       className="opacity-0 hidden absolute appearance-none"
                       onChange={onChangeImageHandler}
                     />
