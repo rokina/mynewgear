@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { TwitterIcon, TwitterShareButton } from "react-share";
 import { selectUser } from "../features/userSlice";
 import Icon from "../img/icon_user.svg";
 import Logo from "../img/logo.svg";
@@ -21,6 +22,15 @@ const Header: React.FC = () => {
         </Link>
         <nav>
           <ul className="text-white flex items-center space-x-4 text-base">
+            <li className="flex items-center">
+              <TwitterShareButton
+                url={"https://mynewgear-91dc2.web.app/\n\n"}
+                title={"my new gear...\nあなたの素敵な機材を共有しませんか\n"}
+                hashtags={["mynewgear"]}
+              >
+                <TwitterIcon size={36} round />
+              </TwitterShareButton>
+            </li>
             <li className="w-9 rounded-full overflow-hidden">
               {user.uid ? (
                 <Link to="/mypage/">
