@@ -57,7 +57,8 @@ const TweetInput: React.FC<{
         .join("");
       const fileName = randomChar + "_" + tweetImage.name;
       const uploadTweetImg = storage.ref(`images/${fileName}`).put(tweetImage);
-      // TODO: react-image-file-resizerでアップロード前にリサイズwebp化
+      // TODO: react-image-file-resizerでアップロード前にリサイズwebp化？
+      // アップロード制限5MB ←とりあえずこれだけでいこう
       uploadTweetImg.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
         () => {},
@@ -125,7 +126,7 @@ const TweetInput: React.FC<{
         className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
       >
         <Fade in={openModal}>
-          <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
+          <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendTweet}>
               <div className="mb-[5px] flex justify-around items-center">
                 <Button type="button" variant="contained" color="primary">

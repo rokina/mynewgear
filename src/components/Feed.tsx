@@ -68,9 +68,9 @@ const Feed: React.FC = () => {
 
   return (
     <>
-      <div className="text-4xl text-center">
+      <div className="text-[36px] leading-none text-center">
         <p>my new gear...</p>
-        <p className="mt-4">あなたの素敵な機材を共有しませんか</p>
+        <p className="mt-[15px]">あなたの素敵な機材を共有しませんか</p>
         <button className={classes.btn} onClick={handleOpen}>
           <svg width="277" height="62">
             <defs>
@@ -99,8 +99,8 @@ const Feed: React.FC = () => {
       )}
 
       {posts[0]?.id && (
-        <section className="mt-5">
-          <h2 className="text-lg">#mynewgear</h2>
+        <section className="mt-[20px]">
+          <h2 className="text-[18px]">#mynewgear</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
               <Post
@@ -123,8 +123,8 @@ const Feed: React.FC = () => {
         </section>
       )}
       {posts_guitar[0]?.id && (
-        <section className="mt-8 mb-8">
-          <h2 className="text-lg">#guitar</h2>
+        <section className="mt-[30px] mb-[30px]">
+          <h2 className="text-[18px]">#guitar</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts_guitar.map((post) => (
               <Post
@@ -147,8 +147,8 @@ const Feed: React.FC = () => {
         </section>
       )}
       {posts_bass[0]?.id && (
-        <section className="mt-8 mb-8">
-          <h2 className="text-lg">#bass</h2>
+        <section className="mt-[30px] mb-[30px]">
+          <h2 className="text-[18px]">#bass</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts_bass.map((post) => (
               <Post

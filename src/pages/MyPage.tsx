@@ -83,9 +83,9 @@ const MyPage: React.FC = () => {
   return (
     <>
       {posts[0]?.id && (
-        <section className="mt-5">
-          <h2 className="text-lg">いいねした投稿</h2>
-          <ul className="flex flex-wrap -m-2 mt-0">
+        <section className="mt-[20px]">
+          <h2 className="text-[18px]">いいねした投稿</h2>
+          <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
               <Post
                 key={post.id}
@@ -107,9 +107,9 @@ const MyPage: React.FC = () => {
         </section>
       )}
       {posts2[0]?.id && (
-        <section className="mt-5">
-          <h2 className="text-lg">自分の投稿</h2>
-          <ul className="flex flex-wrap -m-2 mt-0">
+        <section className="mt-[20px]">
+          <h2 className="text-[18px]">自分の投稿</h2>
+          <ul className="flex flex-wrap mx-[-5px]">
             {posts2.map((post) => (
               <Post
                 key={post.id}

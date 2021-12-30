@@ -21,7 +21,7 @@ const Header: React.FC = () => {
           <img src={Logo} alt="MNG" />
         </Link>
         <nav>
-          <ul className="text-white flex items-center space-x-4 text-base">
+          <ul className="text-white flex items-center space-x-[10px]">
             <li className="flex items-center">
               <TwitterShareButton
                 url={"https://mynewgear-91dc2.web.app/\n\n"}
@@ -31,7 +31,7 @@ const Header: React.FC = () => {
                 <TwitterIcon size={36} round />
               </TwitterShareButton>
             </li>
-            <li className="w-9 rounded-full overflow-hidden">
+            <li className="w-[36px] rounded-full overflow-hidden">
               {user.uid ? (
                 <Link to="/mypage/">
                   <img src={user.photoUrl ? user.photoUrl : Icon} alt="" />
