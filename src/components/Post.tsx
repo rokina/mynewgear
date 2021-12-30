@@ -50,8 +50,8 @@ function getModalStyle() {
   const left = 50;
 
   return {
-    width: `${width}%`,
-    height: `${height}%`,
+    // width: `${width}%`,
+    // height: `${height}%`,
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
@@ -236,7 +236,7 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li
-        className="w-[calc(20%-(50px/5))] relative cursor-pointer overflow-hidden rounded-[20px] before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(10px/1))]"
+        className="w-[calc(20%-(50px/5))] relative cursor-pointer overflow-hidden rounded-[20px] before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(20px/1))] md:m-[10px]"
         onClick={handleOpen}
       >
         {props.image && (
@@ -246,15 +246,15 @@ const Post: React.FC<PROPS> = (props) => {
             className="object-cover absolute w-full h-full top-0 right-0 bottom-0 left-0 m-auto"
           />
         )}
-        <span className="absolute bottom-[6px] right-[10px]">
+        <span className="absolute bottom-[6px] right-[10px] md:text-[18px]">
           #{props.category}
         </span>
         <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50 hover:backdrop-grayscale hover:backdrop-blur-[3px]">
           <div className="px-[20px]">
-            <span className="text-[20px] block break-all">
+            <span className="text-[20px] block break-all md:text-[22px]">
               # {props.brandName}
             </span>
-            <span className="text-[18px] block break-all">
+            <span className="text-[18px] block break-all md:text-[22px] md:mt-[5px]">
               {props.gearName}
             </span>
             <div className="absolute right-[14px] bottom-[6px] flex items-center">
@@ -287,7 +287,7 @@ const Post: React.FC<PROPS> = (props) => {
         <Fade in={openModal}>
           <div
             style={getModalStyle()}
-            className="relative bg-black border border-gray rounded-[16px] pl-[50px] pr-[30px] py-[100px] flex items-start lg:block lg:overflow-y-auto lg:py-[40px] lg:pl-[40px] lg:pr-[20px] md:px-[15px] md:py-[20px]"
+            className="w-[90%] h-[90%] relative bg-black border border-gray rounded-[16px] pl-[50px] pr-[30px] py-[100px] flex items-start lg:block lg:overflow-y-auto lg:py-[40px] lg:pl-[40px] lg:pr-[20px] md:pl-[15px] md:pr-[5px] md:py-[15px] md:w-[calc(100%-30px)] md:h-[calc(100%-30px)]"
           >
             {props.image && (
               <div className="w-8/12 h-full lg:w-full lg:h-auto lg:hidden">
@@ -298,14 +298,14 @@ const Post: React.FC<PROPS> = (props) => {
                 />
               </div>
             )}
-            <div className="ml-[40px] pr-[20px] w-4/12 overflow-x-auto h-full lg:w-full lg:ml-0">
-              <div className="flex items-center">
+            <div className="ml-[40px] pr-[20px] w-4/12 overflow-x-auto h-full lg:w-full lg:ml-0 md:pr-[10px]">
+              <div className="flex items-center md:relative">
                 <img
                   src={props.avatar}
                   alt=""
                   className="rounded-full w-[50px] h-[50px]"
                 />
-                <div className="ml-[15px]">
+                <div className="ml-[15px] md:ml-[10px]">
                   <p className="text-white text-[18px] font-bold">
                     {props.username}
                   </p>
@@ -313,8 +313,20 @@ const Post: React.FC<PROPS> = (props) => {
                     @{props.userID}
                   </p>
                 </div>
+                <button
+                  onClick={handleClose}
+                  className="text-white absolute hidden right-[0px] md:block"
+                >
+                  <img
+                    src={close_icon}
+                    alt=""
+                    width="40"
+                    height="40"
+                    className="md:w-[40px] md:h-[40px]"
+                  />
+                </button>
                 {props.userID === user.uid && (
-                  <div className="text-right w-full lg:mr-[40px]">
+                  <div className="text-right w-full lg:mr-[40px] md:mr-[45px]">
                     <Button variant="contained" onClick={handleClickOpen}>
                       <span className="text-black">投稿を削除</span>
                     </Button>
@@ -396,10 +408,10 @@ const Post: React.FC<PROPS> = (props) => {
                       <div className="ml-[8px] w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:max-w-[200px]">
+                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:max-w-[200px] md:max-w-[95px]">
                               {com.username}
                             </span>
-                            <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis lg:w-[110px]">
+                            <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis lg:w-[110px] md:w-[45px]">
                               @{com.userID}
                             </span>
                           </div>
@@ -451,7 +463,7 @@ const Post: React.FC<PROPS> = (props) => {
             </div>
             <button
               onClick={handleClose}
-              className="text-white absolute top-[25px] right-[25px]"
+              className="text-white absolute top-[25px] right-[25px] md:hidden"
             >
               <img
                 src={close_icon}

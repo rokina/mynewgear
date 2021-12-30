@@ -99,7 +99,7 @@ const Feed: React.FC = () => {
       )}
 
       {posts[0]?.id && (
-        <section className="mt-[20px]">
+        <section className="mt-[20px] md:mt-[25px]">
           <h2 className="text-[18px]">#mynewgear</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
@@ -147,7 +147,7 @@ const Feed: React.FC = () => {
         </section>
       )}
       {posts_bass[0]?.id && (
-        <section className="mt-[30px] mb-[30px]">
+        <section className="mt-[30px] mb-[30px] md:mb-[0px]">
           <h2 className="text-[18px]">#bass</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts_bass.map((post) => (

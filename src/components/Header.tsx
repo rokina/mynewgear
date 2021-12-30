@@ -15,7 +15,7 @@ const Header: React.FC = () => {
     setOpenModal(true);
   };
   return (
-    <header className="bg-black-dark py-[10px] px-[20px]">
+    <header className="bg-black-dark py-[10px] px-[20px] md:px-[15px]">
       <h1 className="flex items-center justify-between">
         <Link to="/">
           <img src={Logo} alt="MNG" />
