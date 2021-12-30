@@ -44,14 +44,10 @@ interface COMMENT {
 }
 
 function getModalStyle() {
-  const width = 90;
-  const height = 90;
   const top = 50;
   const left = 50;
 
   return {
-    // width: `${width}%`,
-    // height: `${height}%`,
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
