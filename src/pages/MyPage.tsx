@@ -83,7 +83,7 @@ const MyPage: React.FC = () => {
   return (
     <>
       {posts[0]?.id && (
-        <section className="mt-[20px]">
+        <section className="mt-[20px] md:mt-[0px]">
           <h2 className="text-[18px]">いいねした投稿</h2>
           <ul className="flex flex-wrap mx-[-5px]">
             {posts.map((post) => (
@@ -130,7 +130,7 @@ const MyPage: React.FC = () => {
           </ul>
         </section>
       )}
-      <div className="mt-[50px] text-center">
+      <div className="mt-[50px] text-center md:mt-[15px]">
         <Link to="/">
           <button
             className="text-white"

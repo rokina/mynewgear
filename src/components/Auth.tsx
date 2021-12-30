@@ -191,7 +191,7 @@ const Auth: React.FC<{
       className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
     >
       <Fade in={openModal}>
-        <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
+        <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%] md:px-[30px] md:py-[30px]">
           <div>
             <p className="text-center text-[24px]">
               {isLogin ? "ログイン" : "新規登録"}
@@ -303,7 +303,9 @@ const Auth: React.FC<{
                     className="cursor-pointer"
                     onClick={() => setResetEmailOpenModal(true)}
                   >
-                    パスワードを忘れた方
+                    パスワードを
+                    <br className="hidden md:block" />
+                    忘れた方
                   </span>
                 </Grid>
                 <Grid item>

@@ -37,7 +37,7 @@ const App: React.FC = () => {
       <Router>
         <ScrollToTop>
           <Header />
-          <main className="text-white px-[80px] py-[50px] bg-black min-h-[calc(100vh-94px)] lg:px-[50px] md:px-[20px]">
+          <main className="text-white px-[80px] py-[50px] bg-black min-h-[calc(100vh-94px)] lg:px-[50px] md:px-[15px] md:py-[20px]">
             <Route exact path="/" component={Feed} />
             <Route path="/mypage/" component={MyPage} />
             <Route path="/terms/" component={Terms} />
