@@ -81,7 +81,7 @@ const Post: React.FC<PROPS> = (props) => {
       .collection("posts")
       .doc(props.postId)
       .collection("comments")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         setComments(
           snapshot.docs.map((doc) => ({
@@ -236,33 +236,39 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li
-        className="w-[calc(20%-(50px/5))] relative cursor-pointer before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(10px/1))]"
+        className="w-[calc(20%-(50px/5))] relative cursor-pointer overflow-hidden rounded-[20px] before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(10px/1))]"
         onClick={handleOpen}
       >
         {props.image && (
           <img
             src={props.image}
             alt=""
-            className="object-cover absolute w-full h-full top-0 right-0 bottom-0 left-0 m-auto rounded-[20px]"
+            className="object-cover absolute w-full h-full top-0 right-0 bottom-0 left-0 m-auto"
           />
         )}
-        <span className="absolute bottom-2 right-2">#{props.category}</span>
-        <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center rounded-[20px] hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50 hover:backdrop-grayscale hover:backdrop-blur-[3px]">
-          <div className="px-5">
-            <span className="text-xl block break-all"># {props.brandName}</span>
-            <span className="text-lg block break-all">{props.gearName}</span>
-            <div className="absolute right-4 bottom-3 flex items-center">
-              <span className="text-white text-xl flex items-center">
+        <span className="absolute bottom-[6px] right-[10px]">
+          #{props.category}
+        </span>
+        <div className="absolute top-0 w-full h-full opacity-0 transition flex items-center hover:opacity-100 hover:bg-black-dark hover:bg-opacity-50 hover:backdrop-grayscale hover:backdrop-blur-[3px]">
+          <div className="px-[20px]">
+            <span className="text-[20px] block break-all">
+              # {props.brandName}
+            </span>
+            <span className="text-[18px] block break-all">
+              {props.gearName}
+            </span>
+            <div className="absolute right-[14px] bottom-[6px] flex items-center">
+              <span className="text-white text-[20px] flex items-center">
                 <div className="w-[20px] h-auto">
                   <IconFavorite />
                 </div>
-                <span className="ml-1.5">{likeCount}</span>
+                <span className="ml-[6px]">{likeCount}</span>
               </span>
-              <span className="text-white text-xl flex items-center ml-3">
+              <span className="text-white text-[20px] flex items-center ml-[12px]">
                 <div className="w-[20px] h-auto">
                   <IconComment />
                 </div>
-                <span className="ml-1.5">{comments.length}</span>
+                <span className="ml-[6px]">{comments.length}</span>
               </span>
             </div>
           </div>
@@ -281,7 +287,7 @@ const Post: React.FC<PROPS> = (props) => {
         <Fade in={openModal}>
           <div
             style={getModalStyle()}
-            className="relative bg-black border border-gray rounded-2xl px-12 py-28 flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
+            className="relative bg-black border border-gray rounded-[16px] pl-[50px] pr-[30px] py-[100px] flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
           >
             {props.image && (
               <div className="w-8/12 h-full md:w-full md:h-auto md:hidden">
@@ -292,18 +298,18 @@ const Post: React.FC<PROPS> = (props) => {
                 />
               </div>
             )}
-            <div className="ml-10 w-4/12 md:w-full md:ml-0">
+            <div className="ml-[40px] pr-[20px] w-4/12 overflow-x-auto h-full md:w-full md:ml-0">
               <div className="flex items-center">
                 <img
                   src={props.avatar}
                   alt=""
-                  className="rounded-full w-20 h-20"
+                  className="rounded-full w-[50px] h-[50px]"
                 />
-                <div className="ml-5">
-                  <p className="text-white text-2xl font-bold">
+                <div className="ml-[15px]">
+                  <p className="text-white text-[18px] font-bold">
                     {props.username}
                   </p>
-                  <p className="text-gray text-x w-[5em] overflow-hidden overflow-ellipsis">
+                  <p className="text-gray text-[14px] w-[100px] overflow-hidden overflow-ellipsis">
                     @{props.userID}
                   </p>
                 </div>
@@ -323,7 +329,7 @@ const Post: React.FC<PROPS> = (props) => {
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                          この操作は取り消せません。マイページ、あなたをフォローしているアカウントのタイムライン、Twitterの検索結果からツイートが削除されます。
+                          この操作は取り消せません。本当に削除してもよろしいですか？
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
@@ -336,16 +342,16 @@ const Post: React.FC<PROPS> = (props) => {
                   </div>
                 )}
               </div>
-              <div className="mt-5 pb-1 border-b border-gray">
+              <div className="mt-[20px] pb-[5px] border-b border-gray">
                 <div className="flex items-center justify-between">
-                  <div className="text-white text-2xl w-4/6">
+                  <div className="text-white text-[22px] w-[calc(100%-77px)]">
                     <p>{props.brandName}</p>
                     <p>{props.gearName}</p>
                   </div>
-                  <div className="flex items-center justify-between w-2/6">
+                  <div className="flex items-center justify-end w-[77px]">
                     <button
                       className={
-                        "flex items-center " +
+                        "flex items-center fill-current " +
                         (likeState ? "text-red " : "text-white ") +
                         (!user.uid ? "pointer-events-none" : "")
                       }
@@ -357,14 +363,14 @@ const Post: React.FC<PROPS> = (props) => {
                         <IconFavorite />
                       </div>
 
-                      <span className="text-3xl text-white ml-2">
+                      <span className="text-[20px] text-white ml-[10px]">
                         {likeCount}
                       </span>
                     </button>
                   </div>
                 </div>
 
-                <p className="text-white text-xl mt-8">{props.text}</p>
+                <p className="text-white text-[20px] mt-[20px]">{props.text}</p>
                 {props.image && (
                   <div className="w-8/12 h-full mt-[20px] hidden md:w-full md:h-auto md:block">
                     <img
@@ -374,7 +380,7 @@ const Post: React.FC<PROPS> = (props) => {
                     />
                   </div>
                 )}
-                <p className="text-gray text-sm text-right mt-3">
+                <p className="text-gray text-[14px] text-right mt-[10px]">
                   {new Date(props.timestamp?.toDate()).toLocaleString()}
                 </p>
               </div>
@@ -383,21 +389,27 @@ const Post: React.FC<PROPS> = (props) => {
                   {comments.map((com) => (
                     <div
                       key={com.id}
-                      className="text-white flex pt-3 pb-2 border-b border-gray"
+                      className="text-white flex pt-[12px] pb-[8px] border-b border-gray"
                     >
                       <Avatar src={com.avatar} />
 
-                      <div className="ml-2">
-                        <div className="flex items-center">
-                          <span className="text-base">{com.username}</span>
-                          <span className="text-xs ml-1 text-gray w-[5em] overflow-hidden overflow-ellipsis">
-                            @{com.userID}
-                          </span>
-                          <span className="text-xs ml-1 text-gray">
+                      <div className="ml-[8px] w-full">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap">
+                              {com.username}
+                            </span>
+                            <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis">
+                              @{com.userID}
+                            </span>
+                          </div>
+                          <span className="text-[12px] ml-[5px] text-gray">
                             {new Date(com.timestamp?.toDate()).toLocaleString()}
                           </span>
                         </div>
-                        <span>{com.text}</span>
+                        <span className="break-all whitespace-pre-line">
+                          {com.text}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -405,20 +417,23 @@ const Post: React.FC<PROPS> = (props) => {
               )}
               {user.uid ? (
                 <form onSubmit={newComment}>
-                  <div className="flex items-center mt-5">
+                  <div className="flex items-center mt-[15px]">
                     <Avatar src={user.photoUrl} />
                     <textarea
                       name=""
                       id=""
                       placeholder="返信を投稿"
-                      className="bg-transparent rounded border border-gray ml-2 px-2 py-1 text-black w-72"
+                      className="h-[82px] bg-transparent rounded-[4px] border border-gray ml-[8px] px-[8px] py-[4px] text-black w-[calc(100%-40px-42px-8px-8px)]"
                       value={comment}
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                         setComment(e.target.value)
                       }
                     ></textarea>
                     <button
-                      className="text-white text-xs bg-blue rounded-xl py-1 px-2 ml-2"
+                      className={
+                        "text-white text-[12px] min-w-[42px] rounded-[10px] py-[4px] px-[8px] ml-[8px] " +
+                        (!comment ? "bg-gray pointer-events-none " : "bg-blue ")
+                      }
                       disabled={!comment}
                       type="submit"
                     >
@@ -428,8 +443,8 @@ const Post: React.FC<PROPS> = (props) => {
                 </form>
               ) : (
                 <div>
-                  <p className="text-white mt-[15px] text-[14px]">
-                    ログインするとコメントを送ることができます
+                  <p className="text-white mt-[20px] text-[16px]">
+                    ログインするとコメントができるようになります
                   </p>
                 </div>
               )}
@@ -441,8 +456,8 @@ const Post: React.FC<PROPS> = (props) => {
               <img
                 src={close_icon}
                 alt=""
-                width="50"
-                height="50"
+                width="40"
+                height="40"
                 className="md:w-[40px] md:h-[40px]"
               />
             </button>

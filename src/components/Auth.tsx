@@ -1,6 +1,5 @@
 import {
   Backdrop,
-  Box,
   Button,
   Fade,
   Grid,
@@ -9,14 +8,14 @@ import {
   Modal,
   TextField,
 } from "@material-ui/core";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import CameraIcon from "@material-ui/icons/Camera";
 import EmailIcon from "@material-ui/icons/Email";
 import SendIcon from "@material-ui/icons/Send";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../features/userSlice";
 import { auth, google_provider, storage, twitter_provider } from "../firebase";
+import IconGoogle from "../img/icon_google.png";
+import { ReactComponent as IconTwitter } from "../img/icon_twitter.svg";
 
 function getModalStyle() {
   const top = 50;
@@ -70,6 +69,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  twitter: {
+    margin: theme.spacing(3, 0, 0),
+    textTransform: "none",
+    backgroundColor: "#5AABF3",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "rgba(90, 171, 243, 0.7)",
+    },
+  },
+  google: {
+    margin: theme.spacing(2, 0, 0),
+    textTransform: "none",
+    backgroundColor: "#4285f4",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "rgba(66, 133, 244, 0.7)",
+    },
+  },
 }));
 
 const Auth: React.FC<{
@@ -86,9 +103,11 @@ const Auth: React.FC<{
   const [isLogin, setIsLogin] = useState(true);
   const [resetEmailOpenModal, setResetEmailOpenModal] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [preview, setPreview] = useState("");
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
       setAvatarImage(e.target.files![0]);
+      setPreview(window.URL.createObjectURL(e.target.files![0]));
       e.target.value = "";
     }
   };
@@ -172,7 +191,7 @@ const Auth: React.FC<{
       className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
     >
       <Fade in={openModal}>
-        <div className="relative bg-white border rounded-2xl py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
+        <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
           <div>
             <p className="text-center text-[24px]">
               {isLogin ? "ログイン" : "新規登録"}
@@ -180,6 +199,26 @@ const Auth: React.FC<{
             <form className={classes.form} noValidate>
               {!isLogin && (
                 <>
+                  <div className="flex items-center justify-center">
+                    <Button type="button" variant="contained" color="primary">
+                      <label className="text-white cursor-pointer">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="opacity-0 hidden absolute appearance-none"
+                          onChange={onChangeImageHandler}
+                        />
+                        アイコン画像アップロード
+                      </label>
+                    </Button>
+                    {preview && (
+                      <img
+                        src={preview}
+                        alt=""
+                        className="w-[50px] h-[50px] rounded-full ml-[10px]"
+                      />
+                    )}
+                  </div>
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -195,25 +234,6 @@ const Auth: React.FC<{
                       setUsername(e.target.value);
                     }}
                   />
-                  <Box textAlign="center">
-                    <IconButton>
-                      <label>
-                        <AccountCircleIcon
-                          fontSize="large"
-                          className={
-                            avatarImage
-                              ? "cursor-pointer text-white"
-                              : "cursor-pointer text-gray"
-                          }
-                        />
-                        <input
-                          className="text-center hidden"
-                          type="file"
-                          onChange={onChangeImageHandler}
-                        />
-                      </label>
-                    </IconButton>
-                  </Box>
                 </>
               )}
               <TextField
@@ -300,20 +320,24 @@ const Auth: React.FC<{
                 fullWidth
                 variant="contained"
                 color="default"
-                className={classes.submit}
-                startIcon={<CameraIcon />}
+                className={classes.twitter}
                 onClick={signInTwitter}
               >
+                <span className="w-[20px] mr-[5px]">
+                  <IconTwitter />
+                </span>
                 Twitterでログイン
               </Button>
               <Button
                 fullWidth
                 variant="contained"
                 color="default"
-                className={classes.submit}
-                startIcon={<CameraIcon />}
+                className={classes.google}
                 onClick={signInGoogle}
               >
+                <span className="w-[25px] mr-[5px]">
+                  <img src={IconGoogle} alt="" />
+                </span>
                 Googleでログイン
               </Button>
             </form>
