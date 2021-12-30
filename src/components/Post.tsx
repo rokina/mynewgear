@@ -287,10 +287,10 @@ const Post: React.FC<PROPS> = (props) => {
         <Fade in={openModal}>
           <div
             style={getModalStyle()}
-            className="relative bg-black border border-gray rounded-[16px] pl-[50px] pr-[30px] py-[100px] flex items-start md:px-[15px] md:py-[20px] md:block md:overflow-y-auto"
+            className="relative bg-black border border-gray rounded-[16px] pl-[50px] pr-[30px] py-[100px] flex items-start lg:block lg:overflow-y-auto lg:py-[40px] lg:pl-[40px] lg:pr-[20px] md:px-[15px] md:py-[20px]"
           >
             {props.image && (
-              <div className="w-8/12 h-full md:w-full md:h-auto md:hidden">
+              <div className="w-8/12 h-full lg:w-full lg:h-auto lg:hidden">
                 <img
                   src={props.image}
                   alt=""
@@ -298,7 +298,7 @@ const Post: React.FC<PROPS> = (props) => {
                 />
               </div>
             )}
-            <div className="ml-[40px] pr-[20px] w-4/12 overflow-x-auto h-full md:w-full md:ml-0">
+            <div className="ml-[40px] pr-[20px] w-4/12 overflow-x-auto h-full lg:w-full lg:ml-0">
               <div className="flex items-center">
                 <img
                   src={props.avatar}
@@ -314,7 +314,7 @@ const Post: React.FC<PROPS> = (props) => {
                   </p>
                 </div>
                 {props.userID === user.uid && (
-                  <div className="text-right w-full">
+                  <div className="text-right w-full lg:mr-[40px]">
                     <Button variant="contained" onClick={handleClickOpen}>
                       <span className="text-black">投稿を削除</span>
                     </Button>
@@ -372,7 +372,7 @@ const Post: React.FC<PROPS> = (props) => {
 
                 <p className="text-white text-[20px] mt-[20px]">{props.text}</p>
                 {props.image && (
-                  <div className="w-8/12 h-full mt-[20px] hidden md:w-full md:h-auto md:block">
+                  <div className="w-8/12 h-full mt-[20px] hidden lg:w-full lg:h-auto lg:block">
                     <img
                       src={props.image}
                       alt=""
@@ -396,10 +396,10 @@ const Post: React.FC<PROPS> = (props) => {
                       <div className="ml-[8px] w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:max-w-[200px]">
                               {com.username}
                             </span>
-                            <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis">
+                            <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis lg:w-[110px]">
                               @{com.userID}
                             </span>
                           </div>
