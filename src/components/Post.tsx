@@ -232,7 +232,7 @@ const Post: React.FC<PROPS> = (props) => {
   return (
     <>
       <li
-        className="w-[calc(20%-(50px/5))] relative cursor-pointer overflow-hidden rounded-[20px] before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(20px/1))] md:m-[10px]"
+        className="w-[calc(20%-(50px/5))] relative cursor-pointer overflow-hidden rounded-[20px] z-[1] before:block before:pt-[100%] m-[5px] lg:w-[calc(33.333333%-(30px/3))] md:w-[calc(100%-(20px/1))] md:m-[10px]"
         onClick={handleOpen}
       >
         {props.image && (
@@ -279,6 +279,7 @@ const Post: React.FC<PROPS> = (props) => {
           timeout: 500,
         }}
         className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
+        style={{ touchAction: "none" }}
       >
         <Fade in={openModal}>
           <div
