@@ -67,10 +67,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
   },
   twitter: {
-    margin: theme.spacing(3, 0, 0),
+    margin: theme.spacing(4, 0, 0),
     textTransform: "none",
     backgroundColor: "#5AABF3",
     color: "#fff",

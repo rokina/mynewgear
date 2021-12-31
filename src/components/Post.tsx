@@ -192,20 +192,24 @@ const Post: React.FC<PROPS> = (props) => {
     setOpen(false);
   };
 
+  const dateFormat = (date: string) => {
+    const formattedTime = date.replace(/^2[0-9]{3}\/|:[0-9]{2}$/g, "");
+    return formattedTime;
+  };
+
   const postDelete = () => {
     db.collection("posts")
       .doc(props.postId)
       .get()
       .then((doc) => {
         if (doc.exists) {
-          const pattern = /images.*jpg/g; //投稿画像はWebPに変換する予定なので将来的にはWebPを指定する
+          const pattern = /images.*(gif|jpg|jpeg|png)/g;
           const data = doc.data()!.image;
           const result = data.match(pattern);
 
           const replaced = result[0].replace("%2F", "/");
 
           const desertRef = storageRef.child(replaced);
-
           desertRef
             .delete()
             .then(function () {})
@@ -405,7 +409,7 @@ const Post: React.FC<PROPS> = (props) => {
                       <div className="ml-[8px] w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:max-w-[200px] md:max-w-[95px]">
+                            <span className="text-[16px] max-w-[98px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:max-w-[200px] md:max-w-[140px]">
                               {com.username}
                             </span>
                             <span className="text-[12px] ml-[5px] text-gray w-[50px] overflow-hidden overflow-ellipsis lg:w-[110px] md:w-[45px]">
@@ -413,7 +417,9 @@ const Post: React.FC<PROPS> = (props) => {
                             </span>
                           </div>
                           <span className="text-[12px] ml-[5px] text-gray">
-                            {new Date(com.timestamp?.toDate()).toLocaleString()}
+                            {dateFormat(
+                              new Date(com.timestamp?.toDate()).toLocaleString()
+                            )}
                           </span>
                         </div>
                         <span className="break-all whitespace-pre-line">
