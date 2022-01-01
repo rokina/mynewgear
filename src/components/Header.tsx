@@ -25,7 +25,7 @@ const Header: React.FC = () => {
             <li className="flex items-center">
               <TwitterShareButton
                 url={"https://mynewgear-91dc2.web.app/\n\n"}
-                title={"my new gear...\nあなたの素敵な機材を共有しませんか\n"}
+                title={"「my new gear...」で自慢の機材を共有しよう"}
                 hashtags={["mynewgear"]}
               >
                 <TwitterIcon size={36} round />
