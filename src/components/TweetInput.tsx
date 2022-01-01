@@ -128,7 +128,7 @@ const TweetInput: React.FC<{
         <Fade in={openModal}>
           <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendTweet}>
-              <div className="mb-[5px] flex justify-around items-center">
+              <div className="mb-[5px] flex justify-around items-center md:flex-col">
                 <Button type="button" variant="contained" color="primary">
                   <label className="text-white cursor-pointer">
                     <input
@@ -144,7 +144,7 @@ const TweetInput: React.FC<{
                   <img
                     src={preview}
                     alt=""
-                    className="max-w-[200px] max-h-[200px]"
+                    className="max-w-[200px] max-h-[200px] md:mt-[15px] md:max-w-[150px] md:max-h-[150px]"
                   />
                 )}
               </div>
