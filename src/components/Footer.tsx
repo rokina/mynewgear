@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         </Link>
       </div>
       <small className="text-white text-[12px] md:inline-block md:mt-[5px]">
-        &copy; MyNewGear Inc.
+        &copy; MyNewGear
       </small>
     </footer>
   );
