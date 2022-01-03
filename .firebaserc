@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mynewgear-91dc2"
-  }
+    "prod": "mynewgear-prod",
+    "dev": "mynewgear-91dc2"
+  },
+  "targets": {}
 }
