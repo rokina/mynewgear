@@ -383,7 +383,9 @@ const Post: React.FC<PROPS> = (props) => {
                   </div>
                 </div>
 
-                <p className="text-white text-[20px] mt-[20px]">{props.text}</p>
+                <p className="text-white text-[20px] mt-[20px] whitespace-pre-line">
+                  {props.text}
+                </p>
                 {props.image && (
                   <div className="w-8/12 h-full mt-[20px] hidden lg:w-full lg:h-auto lg:block">
                     <img
