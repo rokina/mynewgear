@@ -14,6 +14,7 @@ import firebase from "firebase/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Data from "../brandName.json";
 import { selectUser } from "../features/userSlice";
 import { db, storage } from "../firebase";
 
@@ -28,6 +29,7 @@ const TweetInput: React.FC<{
   const [brandName, setBrandName] = useState("");
   const [gearName, setGearName] = useState("");
   const [preview, setPreview] = useState("");
+  const brandNameData = Data.brandName;
 
   const onChangeCategoryHandler = (
     e: React.ChangeEvent<{ value: unknown }>
@@ -155,6 +157,8 @@ const TweetInput: React.FC<{
                 >
                   <MenuItem value={"guitar"}>Guitar</MenuItem>
                   <MenuItem value={"bass"}>Bass</MenuItem>
+                  <MenuItem value={"effector"}>Effector</MenuItem>
+                  <MenuItem value={"amp"}>Amp</MenuItem>
                   <MenuItem value={"other"}>Other</MenuItem>
                 </Select>
               </FormControl>
@@ -168,8 +172,11 @@ const TweetInput: React.FC<{
                   onChange={onChangeBrandNameHandler}
                   required
                 >
-                  <MenuItem value={"Gibson"}>Gibson</MenuItem>
-                  <MenuItem value={"Fender"}>Fender</MenuItem>
+                  {brandNameData.map((brandName) => (
+                    <MenuItem value={brandName.name} key={brandName.name}>
+                      {brandName.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <TextField
