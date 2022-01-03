@@ -9,6 +9,7 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
+import imageCompression from "browser-image-compression";
 import firebase from "firebase/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -39,10 +40,18 @@ const TweetInput: React.FC<{
     setBrandName(e.target.value as string);
   };
 
-  const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImageHandler = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files![0]) {
-      setTweetImage(e.target.files![0]);
-      setPreview(window.URL.createObjectURL(e.target.files![0]));
+      const options = {
+        maxSizeMB: 5,
+        maxWidthOrHeight: 2200,
+        initialQuality: 0.8,
+      };
+      const file = await imageCompression(e.target.files![0], options);
+      setTweetImage(file);
+      setPreview(window.URL.createObjectURL(file));
       e.target.value = "";
     }
   };
@@ -57,8 +66,7 @@ const TweetInput: React.FC<{
         .join("");
       const fileName = randomChar + "_" + tweetImage.name;
       const uploadTweetImg = storage.ref(`images/${fileName}`).put(tweetImage);
-      // TODO: react-image-file-resizerでアップロード前にリサイズwebp化？
-      // アップロード制限5MB ←とりあえずこれだけでいこう
+
       uploadTweetImg.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
         () => {},
@@ -87,22 +95,9 @@ const TweetInput: React.FC<{
             });
         }
       );
-    } else {
-      db.collection("posts").add({
-        avatar: user.photoUrl,
-        image: "",
-        category: category,
-        text: tweetMsg,
-        brandName: brandName,
-        gearName: gearName,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        username: user.displayName,
-        userID: user.uid,
-        likeCount: 0,
-        likedUser: [],
-      });
     }
     setTweetImage(null);
+    setPreview("");
     setCategory("");
     setTweetMsg("");
     setBrandName("");
