@@ -70,7 +70,9 @@ const Feed: React.FC = () => {
     <>
       <div className="text-[36px] leading-none text-center">
         <p>my new gear...</p>
-        <p className="mt-[15px]">あなたの素敵な機材を共有しませんか</p>
+        <p className="mt-[15px] md:leading-[1.2]">
+          あなたの素敵な機材を共有しませんか
+        </p>
         <button className={classes.btn} onClick={handleOpen}>
           <svg width="277" height="62">
             <defs>
