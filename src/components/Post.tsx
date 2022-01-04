@@ -198,12 +198,12 @@ const Post: React.FC<PROPS> = (props) => {
   };
 
   const postDelete = () => {
-    db.collection("posts")
-      .doc(props.postId)
+    const post = db.collection("posts").doc(props.postId);
+    post
       .get()
       .then((doc) => {
         if (doc.exists) {
-          const pattern = /images.*(gif|jpg|jpeg|JPEG|png)/g;
+          const pattern = /images.*(gif|jpg|jpeg|png)/g;
           const data = doc.data()!.image;
           const result = data.match(pattern);
 
@@ -214,18 +214,17 @@ const Post: React.FC<PROPS> = (props) => {
             .delete()
             .then(function () {})
             .catch(function (error) {});
+          post
+            .delete()
+            .then(() => {
+              console.log("Document successfully deleted!");
+            })
+            .catch((error) => {
+              console.error("Error removing document: ", error);
+            });
         } else {
           console.log("No such document!");
         }
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
-    db.collection("posts")
-      .doc(props.postId)
-      .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
