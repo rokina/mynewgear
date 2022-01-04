@@ -203,7 +203,7 @@ const Post: React.FC<PROPS> = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          const pattern = /images.*(gif|jpg|jpeg|png)/g;
+          const pattern = /images.*(gif|jpg|jpeg|JPEG|png)/g;
           const data = doc.data()!.image;
           const result = data.match(pattern);
 

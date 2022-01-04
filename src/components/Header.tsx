@@ -24,7 +24,7 @@ const Header: React.FC = () => {
           <ul className="text-white flex items-center space-x-[10px]">
             <li className="flex items-center">
               <TwitterShareButton
-                url={"https://mynewgear-91dc2.web.app/\n\n"}
+                url={"https://my-newgear.web.app/\n\n"}
                 title={"「my new gear...」で自慢の機材を共有しよう"}
                 hashtags={["mynewgear"]}
               >
