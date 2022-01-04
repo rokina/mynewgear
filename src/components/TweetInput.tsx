@@ -185,9 +185,11 @@ const TweetInput: React.FC<{
                 required
                 fullWidth
                 id="gearName"
-                label="機材名 例) American Ultra Luxe Stratocaster"
+                label="機材名"
                 name="gearName"
                 autoComplete="gearName"
+                multiline={true}
+                minRows={2}
                 value={gearName}
                 onChange={(e) => setGearName(e.target.value)}
               />
