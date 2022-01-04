@@ -185,7 +185,7 @@ const TweetInput: React.FC<{
                 required
                 fullWidth
                 id="gearName"
-                label="機材名"
+                label="機材名 例) American Ultra Luxe Stratocaster"
                 name="gearName"
                 autoComplete="gearName"
                 value={gearName}

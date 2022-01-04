@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import EmailIcon from "@material-ui/icons/Email";
 import SendIcon from "@material-ui/icons/Send";
+import imageCompression from "browser-image-compression";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../features/userSlice";
@@ -104,9 +105,17 @@ const Auth: React.FC<{
   const [resetEmailOpenModal, setResetEmailOpenModal] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [preview, setPreview] = useState("");
-  const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImageHandler = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files![0]) {
-      setAvatarImage(e.target.files![0]);
+      const options = {
+        maxSizeMB: 5,
+        maxWidthOrHeight: 100,
+        initialQuality: 0.8,
+      };
+      const file = await imageCompression(e.target.files![0], options);
+      setAvatarImage(file);
       setPreview(window.URL.createObjectURL(e.target.files![0]));
       e.target.value = "";
     }
@@ -256,7 +265,7 @@ const Auth: React.FC<{
                 required
                 fullWidth
                 name="password"
-                label="パスワード"
+                label="パスワード 6文字以上"
                 type="password"
                 id="password"
                 autoComplete="current-password"

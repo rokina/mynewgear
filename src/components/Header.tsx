@@ -31,10 +31,14 @@ const Header: React.FC = () => {
                 <TwitterIcon size={36} round />
               </TwitterShareButton>
             </li>
-            <li className="w-[36px] rounded-full overflow-hidden">
+            <li className="w-[36px] h-[36px] rounded-full overflow-hidden">
               {user.uid ? (
                 <Link to="/mypage/">
-                  <img src={user.photoUrl ? user.photoUrl : Icon} alt="" />
+                  <img
+                    src={user.photoUrl ? user.photoUrl : Icon}
+                    className="h-full"
+                    alt=""
+                  />
                 </Link>
               ) : (
                 <>
