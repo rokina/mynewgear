@@ -18,6 +18,11 @@ import { auth, google_provider, storage, twitter_provider } from "../firebase";
 import IconGoogle from "../img/icon_google.png";
 import { ReactComponent as IconTwitter } from "../img/icon_twitter.svg";
 
+interface Props {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -90,21 +95,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Auth: React.FC<{
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ openModal, setOpenModal }) => {
+const Auth = (props: Props) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [avatarImage, setAvatarImage] = useState<File | null>(null);
-  const [isLogin, setIsLogin] = useState(true);
-  const [resetEmailOpenModal, setResetEmailOpenModal] = useState(false);
-  const [resetEmail, setResetEmail] = useState("");
-  const [preview, setPreview] = useState("");
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [resetEmailOpenModal, setResetEmailOpenModal] =
+    useState<boolean>(false);
+  const [resetEmail, setResetEmail] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
+
   const onChangeImageHandler = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -120,6 +124,7 @@ const Auth: React.FC<{
       e.target.value = "";
     }
   };
+
   const sendResetEmail = async (e: React.MouseEvent<HTMLElement>) => {
     await auth
       .sendPasswordResetEmail(resetEmail)
@@ -132,33 +137,37 @@ const Auth: React.FC<{
         setResetEmail("");
       });
   };
+
   const signInTwitter = async () => {
     await auth
       .signInWithPopup(twitter_provider)
       .then((res) => {
-        setOpenModal(false);
+        props.setOpenModal(false);
         console.log(res);
       })
       .catch((err) => alert(err.message));
   };
+
   const signInGoogle = async () => {
     await auth
       .signInWithPopup(google_provider)
       .then((res) => {
-        setOpenModal(false);
+        props.setOpenModal(false);
         console.log(res);
       })
       .catch((err) => alert(err.message));
   };
+
   const signInEmail = async () => {
     await auth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
-        setOpenModal(false);
+        props.setOpenModal(false);
         console.log(res);
       })
       .catch((err) => alert(err.message));
   };
+
   const signUpEmail = async () => {
     const authUser = await auth.createUserWithEmailAndPassword(email, password);
     let url = "";
@@ -184,13 +193,14 @@ const Auth: React.FC<{
       })
     );
   };
-  const handleClose = () => {
-    setOpenModal(false);
+
+  const handleClose = (): void => {
+    props.setOpenModal(false);
   };
 
   return (
     <Modal
-      open={openModal}
+      open={props.openModal}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -199,7 +209,7 @@ const Auth: React.FC<{
       }}
       className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
     >
-      <Fade in={openModal}>
+      <Fade in={props.openModal}>
         <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%] md:px-[30px] md:py-[30px]">
           <div>
             <p className="text-center text-[24px]">

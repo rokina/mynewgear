@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TwitterIcon, TwitterShareButton } from "react-share";
@@ -7,13 +7,14 @@ import Icon from "../img/icon_user.svg";
 import Logo from "../img/logo.svg";
 import Auth from "./Auth";
 
-const Header: React.FC = () => {
+const Header = () => {
   const user = useSelector(selectUser);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpen = () => {
+  const handleOpen = (): void => {
     setOpenModal(true);
   };
+
   return (
     <header className="bg-black-dark py-[10px] px-[20px] md:px-[15px]">
       <h1 className="flex items-center justify-between">

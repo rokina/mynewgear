@@ -1,6 +1,4 @@
-import React from "react";
-
-const Terms: React.FC = () => {
+const Terms = () => {
   return (
     <>
       <section>
