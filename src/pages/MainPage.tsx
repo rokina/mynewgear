@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Auth from "../components/Auth";
 import Post from "../components/Post";
@@ -22,11 +22,26 @@ const MainPage = () => {
     likeCount: number;
     likedUser: [];
   }
-  const [posts, setPosts] = useState<PostObj[]>([]);
-  const [openModal, setOpenModal] = useState(false);
+
+  const postsFilter = (cat: string): PostObj[] => {
+    const filteredObj = posts.filter((post) => {
+      return post.category === cat;
+    });
+    return filteredObj;
+  };
+
   const user = useSelector(selectUser);
+  const [posts, setPosts] = useState<PostObj[]>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const guitarPosts = postsFilter("guitar");
+  const bassPosts = postsFilter("bass");
+
+  const handleOpen = (): void => {
+    setOpenModal(true);
+  };
+
   useEffect(() => {
-    const unSub = db
+    const syncPosts = db
       .collection("posts")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) =>
@@ -48,23 +63,9 @@ const MainPage = () => {
         )
       );
     return () => {
-      unSub();
+      syncPosts();
     };
   }, []);
-
-  const posts_filter = (cat: string) => {
-    const result = posts.filter((post) => {
-      return post.category === cat;
-    });
-    return result;
-  };
-
-  const posts_guitar = posts_filter("guitar");
-  const posts_bass = posts_filter("bass");
-
-  const handleOpen = () => {
-    setOpenModal(true);
-  };
 
   return (
     <>
@@ -124,11 +125,11 @@ const MainPage = () => {
           </ul>
         </section>
       )}
-      {posts_guitar[0]?.id && (
+      {guitarPosts[0]?.id && (
         <section className="mt-[30px] mb-[30px]">
           <h2 className="text-[18px]">#guitar</h2>
           <ul className="flex flex-wrap mx-[-5px]">
-            {posts_guitar.map((post) => (
+            {guitarPosts.map((post) => (
               <Post
                 key={post.id}
                 postId={post.id}
@@ -148,11 +149,11 @@ const MainPage = () => {
           </ul>
         </section>
       )}
-      {posts_bass[0]?.id && (
+      {bassPosts[0]?.id && (
         <section className="mt-[30px] mb-[30px] md:mb-[0px]">
           <h2 className="text-[18px]">#bass</h2>
           <ul className="flex flex-wrap mx-[-5px]">
-            {posts_bass.map((post) => (
+            {bassPosts.map((post) => (
               <Post
                 key={post.id}
                 postId={post.id}

@@ -18,24 +18,28 @@ import Data from "../brandName.json";
 import { selectUser } from "../features/userSlice";
 import { db, storage } from "../firebase";
 
-const PostInput: React.FC<{
+interface Props {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ openModal, setOpenModal }) => {
+}
+
+const PostInput = (props: Props) => {
   const user = useSelector(selectUser);
   const [postImage, setPostImage] = useState<File | null>(null);
-  const [category, setCategory] = useState("");
-  const [postMsg, setPostMsg] = useState("");
-  const [brandName, setBrandName] = useState("");
-  const [gearName, setGearName] = useState("");
-  const [preview, setPreview] = useState("");
+  const [category, setCategory] = useState<string>("");
+  const [postMsg, setPostMsg] = useState<string>("");
+  const [brandName, setBrandName] = useState<string>("");
+  const [gearName, setGearName] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
   const brandNameData = Data.brandName;
+  const postButtonFlag = !postImage || !category || !brandName || !gearName;
 
   const onChangeCategoryHandler = (
     e: React.ChangeEvent<{ value: unknown }>
   ) => {
     setCategory(e.target.value as string);
   };
+
   const onChangeBrandNameHandler = (
     e: React.ChangeEvent<{ value: unknown }>
   ) => {
@@ -57,6 +61,7 @@ const PostInput: React.FC<{
       e.target.value = "";
     }
   };
+
   const sendPost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (postImage) {
@@ -104,16 +109,17 @@ const PostInput: React.FC<{
     setPostMsg("");
     setBrandName("");
     setGearName("");
-    setOpenModal(false);
+    props.setOpenModal(false);
   };
 
-  const handleClose = () => {
-    setOpenModal(false);
+  const handleClose = (): void => {
+    props.setOpenModal(false);
   };
+
   return (
     <>
       <Modal
-        open={openModal}
+        open={props.openModal}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -122,7 +128,7 @@ const PostInput: React.FC<{
         }}
         className="backdrop-blur-[20px] mr-[15px] lg:mr-0"
       >
-        <Fade in={openModal}>
+        <Fade in={props.openModal}>
           <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
             <form onSubmit={sendPost}>
               <div className="mb-[5px] flex justify-around items-center md:flex-col">
@@ -221,15 +227,9 @@ const PostInput: React.FC<{
                   type="submit"
                   variant="contained"
                   color="primary"
-                  disabled={!postImage || !category || !brandName || !gearName}
+                  disabled={postButtonFlag}
                 >
-                  <span
-                    className={
-                      postImage && category && brandName && gearName
-                        ? "text-white"
-                        : "text-gray"
-                    }
-                  >
+                  <span className={postButtonFlag ? "text-gray" : "text-white"}>
                     my new gear を投稿
                   </span>
                 </Button>

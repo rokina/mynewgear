@@ -19,7 +19,7 @@ import close_icon from "../img/icon_close.svg";
 import { ReactComponent as IconComment } from "../img/icon_comment.svg";
 import { ReactComponent as IconFavorite } from "../img/icon_favorite.svg";
 
-interface PROPS {
+interface Props {
   postId: string;
   avatar: string;
   image: string;
@@ -34,7 +34,7 @@ interface PROPS {
   likedUser: [];
 }
 
-interface COMMENT {
+interface Comment {
   id: string;
   avatar: string;
   text: string;
@@ -54,14 +54,15 @@ function getModalStyle() {
   };
 }
 
-const Post = (props: PROPS) => {
+const Post = (props: Props) => {
   const user = useSelector(selectUser);
-  const [likeCount, setLikeCount] = useState(props.likeCount);
-  const [likeState, setLikeState] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<COMMENT[]>([
+  const [likeCount, setLikeCount] = useState<number>(props.likeCount);
+  const [likeState, setLikeState] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [comment, setComment] = useState<string>("");
+
+  const [postedComment, setPostedComment] = useState<Comment[]>([
     {
       id: "",
       avatar: "",
@@ -71,50 +72,6 @@ const Post = (props: PROPS) => {
       timestamp: null,
     },
   ]);
-
-  useEffect(() => {
-    const unSub = db
-      .collection("posts")
-      .doc(props.postId)
-      .collection("comments")
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) => {
-        setComments(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            avatar: doc.data().avatar,
-            text: doc.data().text,
-            username: doc.data().username,
-            userID: doc.data().userID,
-            timestamp: doc.data().timestamp,
-          }))
-        );
-      });
-
-    return () => {
-      unSub();
-    };
-  }, [props.postId]);
-
-  useEffect(() => {
-    if (user.uid !== "") {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("likePosts")
-        .doc(props.postId)
-        .get()
-        .then((doc) => {
-          if (doc.data()?.post) {
-            setLikeState(true);
-          } else {
-            setLikeState(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [props.postId, user.uid]);
 
   const newComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -128,76 +85,67 @@ const Post = (props: PROPS) => {
     setComment("");
   };
 
-  const likeSave = (state: boolean) => {
+  const likeSave = (state: boolean): void => {
+    const postId = db.collection("posts").doc(props.postId);
+    const likePostId = db
+      .collection("users")
+      .doc(user.uid)
+      .collection("likePosts")
+      .doc(props.postId);
     if (state) {
-      db.collection("posts")
-        .doc(props.postId)
-        .update({
-          likedUser: firebase.firestore.FieldValue.arrayUnion(user.uid),
-        });
-      db.collection("users")
-        .doc(user.uid)
-        .collection("likePosts")
-        .doc(props.postId)
-        .set({
-          post: props.postId,
-        });
+      postId.update({
+        likedUser: firebase.firestore.FieldValue.arrayUnion(user.uid),
+      });
+      likePostId.set({
+        post: props.postId,
+      });
     } else {
-      db.collection("posts")
-        .doc(props.postId)
-        .update({
-          likedUser: firebase.firestore.FieldValue.arrayRemove(user.uid),
-        });
-      db.collection("users")
-        .doc(user.uid)
-        .collection("likePosts")
-        .doc(props.postId)
-        .delete();
+      postId.update({
+        likedUser: firebase.firestore.FieldValue.arrayRemove(user.uid),
+      });
+      likePostId.delete();
     }
   };
 
-  const likeButton = () => {
+  const likeButton = (): void => {
+    let newLikeCount: number = 0;
     if (!likeState) {
+      newLikeCount = likeCount + 1;
       likeSave(true);
-      const newLikeCount = likeCount + 1;
       setLikeState(true);
-      setLikeCount(newLikeCount);
-      db.collection("posts").doc(props.postId).update({
-        likeCount: newLikeCount,
-      });
     } else {
+      newLikeCount = likeCount - 1;
       likeSave(false);
-      const newLikeCount = likeCount - 1;
       setLikeState(false);
-      setLikeCount(newLikeCount);
-      db.collection("posts").doc(props.postId).update({
-        likeCount: newLikeCount,
-      });
     }
+    setLikeCount(newLikeCount);
+    db.collection("posts").doc(props.postId).update({
+      likeCount: newLikeCount,
+    });
   };
 
-  const handleOpen = () => {
+  const handleOpen = (): void => {
     setOpenModal(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpenModal(false);
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClickClose = () => {
+  const handleClickClose = (): void => {
     setOpen(false);
   };
 
-  const dateFormat = (date: string) => {
+  const dateFormat = (date: string): string => {
     const formattedTime = date.replace(/^2[0-9]{3}\/|:[0-9]{2}$/g, "");
     return formattedTime;
   };
 
-  const postDelete = () => {
+  const postDelete = (): void => {
     const post = db.collection("posts").doc(props.postId);
     post
       .get()
@@ -231,6 +179,47 @@ const Post = (props: PROPS) => {
       });
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (user.uid !== "") {
+      db.collection("users")
+        .doc(user.uid)
+        .collection("likePosts")
+        .doc(props.postId)
+        .get()
+        .then((doc) => {
+          if (doc.data()?.post) {
+            setLikeState(true);
+          } else {
+            setLikeState(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    const syncPostedComment = db
+      .collection("posts")
+      .doc(props.postId)
+      .collection("comments")
+      .orderBy("timestamp", "asc")
+      .onSnapshot((snapshot) => {
+        setPostedComment(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            text: doc.data().text,
+            username: doc.data().username,
+            userID: doc.data().userID,
+            timestamp: doc.data().timestamp,
+          }))
+        );
+      });
+
+    return () => {
+      syncPostedComment();
+    };
+  }, [props.postId, user.uid]);
 
   return (
     <>
@@ -267,7 +256,7 @@ const Post = (props: PROPS) => {
                 <div className="w-[20px] h-auto">
                   <IconComment />
                 </div>
-                <span className="ml-[6px]">{comments.length}</span>
+                <span className="ml-[6px]">{postedComment.length}</span>
               </span>
             </div>
           </div>
@@ -398,9 +387,9 @@ const Post = (props: PROPS) => {
                   {new Date(props.timestamp?.toDate()).toLocaleString()}
                 </p>
               </div>
-              {comments && (
+              {postedComment && (
                 <>
-                  {comments.map((com) => (
+                  {postedComment.map((com) => (
                     <div
                       key={com.id}
                       className="text-white flex pt-[12px] pb-[8px] border-b border-gray"

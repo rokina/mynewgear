@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Post from "../components/Post";
@@ -20,16 +20,18 @@ const MyPage = () => {
     likeCount: number;
     likedUser: [];
   }
+
   const user = useSelector(selectUser);
-  const [posts, setPosts] = useState<PostObj[]>([]);
-  const [posts2, setPosts2] = useState<PostObj[]>([]);
+  const [likedPosts, setLikedPosts] = useState<PostObj[]>([]);
+  const [myPosts, setMyPosts] = useState<PostObj[]>([]);
+
   useEffect(() => {
     if (user.uid !== "") {
-      const unSub = db
+      const syncLikedPosts = db
         .collection("posts")
         .where("likedUser", "array-contains", user.uid)
         .onSnapshot((snapshot) =>
-          setPosts(
+          setLikedPosts(
             snapshot.docs.map((doc) => ({
               id: doc.id,
               avatar: doc.data().avatar,
@@ -46,18 +48,11 @@ const MyPage = () => {
             }))
           )
         );
-      return () => {
-        unSub();
-      };
-    }
-  }, [user.uid]);
-  useEffect(() => {
-    if (user.uid !== "") {
-      const unSub = db
+      const syncMyPosts = db
         .collection("posts")
         .where("userID", "==", user.uid)
         .onSnapshot((snapshot) =>
-          setPosts2(
+          setMyPosts(
             snapshot.docs.map((doc) => ({
               id: doc.id,
               avatar: doc.data().avatar,
@@ -75,18 +70,19 @@ const MyPage = () => {
           )
         );
       return () => {
-        unSub();
+        syncLikedPosts();
+        syncMyPosts();
       };
     }
   }, [user.uid]);
 
   return (
     <>
-      {posts[0]?.id && (
+      {likedPosts[0]?.id && (
         <section className="mt-[20px] md:mt-[0px]">
           <h2 className="text-[18px]">いいねした投稿</h2>
           <ul className="flex flex-wrap mx-[-5px]">
-            {posts.map((post) => (
+            {likedPosts.map((post) => (
               <Post
                 key={post.id}
                 postId={post.id}
@@ -106,11 +102,11 @@ const MyPage = () => {
           </ul>
         </section>
       )}
-      {posts2[0]?.id && (
+      {myPosts[0]?.id && (
         <section className="mt-[20px]">
           <h2 className="text-[18px]">自分の投稿</h2>
           <ul className="flex flex-wrap mx-[-5px]">
-            {posts2.map((post) => (
+            {myPosts.map((post) => (
               <Post
                 key={post.id}
                 postId={post.id}
