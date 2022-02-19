@@ -18,14 +18,14 @@ import Data from "../brandName.json";
 import { selectUser } from "../features/userSlice";
 import { db, storage } from "../firebase";
 
-const TweetInput: React.FC<{
+const PostInput: React.FC<{
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ openModal, setOpenModal }) => {
   const user = useSelector(selectUser);
-  const [tweetImage, setTweetImage] = useState<File | null>(null);
+  const [postImage, setPostImage] = useState<File | null>(null);
   const [category, setCategory] = useState("");
-  const [tweetMsg, setTweetMsg] = useState("");
+  const [postMsg, setPostMsg] = useState("");
   const [brandName, setBrandName] = useState("");
   const [gearName, setGearName] = useState("");
   const [preview, setPreview] = useState("");
@@ -52,24 +52,24 @@ const TweetInput: React.FC<{
         initialQuality: 0.8,
       };
       const file = await imageCompression(e.target.files![0], options);
-      setTweetImage(file);
+      setPostImage(file);
       setPreview(window.URL.createObjectURL(file));
       e.target.value = "";
     }
   };
-  const sendTweet = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendPost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (tweetImage) {
+    if (postImage) {
       const S =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       const N = 16;
       const randomChar = Array.from(crypto.getRandomValues(new Uint32Array(N)))
         .map((n) => S[n % S.length])
         .join("");
-      const fileName = randomChar + "_" + tweetImage.name;
-      const uploadTweetImg = storage.ref(`images/${fileName}`).put(tweetImage);
+      const fileName = randomChar + "_" + postImage.name;
+      const uploadPostImg = storage.ref(`images/${fileName}`).put(postImage);
 
-      uploadTweetImg.on(
+      uploadPostImg.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
         () => {},
         (err) => {
@@ -85,7 +85,7 @@ const TweetInput: React.FC<{
                 avatar: user.photoUrl,
                 image: url,
                 category: category,
-                text: tweetMsg,
+                text: postMsg,
                 brandName: brandName,
                 gearName: gearName,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -98,10 +98,10 @@ const TweetInput: React.FC<{
         }
       );
     }
-    setTweetImage(null);
+    setPostImage(null);
     setPreview("");
     setCategory("");
-    setTweetMsg("");
+    setPostMsg("");
     setBrandName("");
     setGearName("");
     setOpenModal(false);
@@ -124,7 +124,7 @@ const TweetInput: React.FC<{
       >
         <Fade in={openModal}>
           <div className="relative bg-white border rounded-[16px] py-[40px] px-[40px] flex items-center justify-center w-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[90%]">
-            <form onSubmit={sendTweet}>
+            <form onSubmit={sendPost}>
               <div className="mb-[5px] flex justify-around items-center md:flex-col">
                 <Button type="button" variant="contained" color="primary">
                   <label className="text-white cursor-pointer">
@@ -197,14 +197,14 @@ const TweetInput: React.FC<{
                 variant="filled"
                 margin="dense"
                 fullWidth
-                id="tweetMsg"
+                id="postMsg"
                 label="機材紹介コメント"
-                name="tweetMsg"
-                autoComplete="tweetMsg"
+                name="postMsg"
+                autoComplete="postMsg"
                 multiline={true}
                 minRows={3}
-                value={tweetMsg}
-                onChange={(e) => setTweetMsg(e.target.value)}
+                value={postMsg}
+                onChange={(e) => setPostMsg(e.target.value)}
               />
               <div className="text-center mt-[10px]">
                 <p className="mb-[5px]">
@@ -221,11 +221,11 @@ const TweetInput: React.FC<{
                   type="submit"
                   variant="contained"
                   color="primary"
-                  disabled={!tweetImage || !category || !brandName || !gearName}
+                  disabled={!postImage || !category || !brandName || !gearName}
                 >
                   <span
                     className={
-                      tweetImage && category && brandName && gearName
+                      postImage && category && brandName && gearName
                         ? "text-white"
                         : "text-gray"
                     }
@@ -242,4 +242,4 @@ const TweetInput: React.FC<{
   );
 };
 
-export default TweetInput;
+export default PostInput;

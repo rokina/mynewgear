@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Auth from "../components/Auth";
+import Post from "../components/Post";
+import PostInput from "../components/PostInput";
 import { selectUser } from "../features/userSlice";
 import { db } from "../firebase";
-import classes from "../scss/feed.module.scss";
-import Auth from "./Auth";
-import Post from "./Post";
-import TweetInput from "./TweetInput";
+import classes from "../scss/mainPage.module.scss";
 
-const Feed: React.FC = () => {
+const MainPage: React.FC = () => {
   interface PostObj {
     id: string;
     avatar: string;
@@ -95,7 +95,7 @@ const Feed: React.FC = () => {
         </button>
       </div>
       {user.uid ? (
-        <TweetInput openModal={openModal} setOpenModal={setOpenModal} />
+        <PostInput openModal={openModal} setOpenModal={setOpenModal} />
       ) : (
         <Auth openModal={openModal} setOpenModal={setOpenModal} />
       )}
@@ -176,4 +176,4 @@ const Feed: React.FC = () => {
   );
 };
 
-export default Feed;
+export default MainPage;
