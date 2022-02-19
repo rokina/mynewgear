@@ -7,7 +7,7 @@ import { selectUser } from "../features/userSlice";
 import { db } from "../firebase";
 import classes from "../scss/mainPage.module.scss";
 
-const MainPage: React.FC = () => {
+const MainPage = () => {
   interface PostObj {
     id: string;
     avatar: string;

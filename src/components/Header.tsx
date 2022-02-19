@@ -7,7 +7,7 @@ import Icon from "../img/icon_user.svg";
 import Logo from "../img/logo.svg";
 import Auth from "./Auth";
 
-const Header: React.FC = () => {
+const Header = () => {
   const user = useSelector(selectUser);
   const [openModal, setOpenModal] = useState(false);
 

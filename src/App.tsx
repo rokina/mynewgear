@@ -11,7 +11,7 @@ import MyPage from "./pages/MyPage";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 
-const App: React.FC = () => {
+const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {

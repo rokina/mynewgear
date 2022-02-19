@@ -54,7 +54,7 @@ function getModalStyle() {
   };
 }
 
-const Post: React.FC<PROPS> = (props) => {
+const Post = (props: PROPS) => {
   const user = useSelector(selectUser);
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [likeState, setLikeState] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <footer className="bg-black-dark py-[10px] flex justify-center relative text-[12px] md:block md:text-center">
       <div className="text-white absolute right-[20px] md:relative md:right-[0px]">

@@ -5,7 +5,7 @@ import Post from "../components/Post";
 import { selectUser } from "../features/userSlice";
 import { auth, db } from "../firebase";
 
-const MyPage: React.FC = () => {
+const MyPage = () => {
   interface PostObj {
     id: string;
     avatar: string;
