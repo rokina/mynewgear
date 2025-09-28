@@ -10,7 +10,7 @@ import {
   Fade,
   Modal,
 } from "@material-ui/core";
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";

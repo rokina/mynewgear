@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import imageCompression from "browser-image-compression";
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
