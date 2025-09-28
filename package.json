@@ -21,7 +21,6 @@
     "browser-image-compression": "^1.0.17",
     "firebase": "^8.10.1",
     "firebase-tools": "^10.4.0",
-    "node-sass": "^6.0.1",
     "postcss": "^8.4.12",
     "postcss-cli": "^9.1.0",
     "react": "^17.0.2",
@@ -31,11 +30,12 @@
     "react-scripts": "4.0.3",
     "react-share": "^4.4.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
-    "typescript": "~4.6.2"
+    "typescript": "~4.6.2",
+    "sass": "^1.80.0"
   },
   "scripts": {
-    "start": "TAILWIND_MODE=watch craco start",
-    "build": "craco build",
+    "start": "cross-env TAILWIND_MODE=watch NODE_OPTIONS=--openssl-legacy-provider craco start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -53,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
