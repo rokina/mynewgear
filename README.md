@@ -1,44 +1,89 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+﻿# my new gear...
 
-## Available Scripts
+my new gear... は、ミュージシャンが愛用する機材を共有するための Firebase 連携型 SNS です。React・TypeScript・Redux Toolkit・Tailwind CSS・Material-UI を用いて構築され、写真付き投稿やコメント、いいねをリアルタイムに扱えます。
 
-In the project directory, you can run:
+## 主な機能
+- Firebase Authentication によるメール / Google / Twitter 認証。
+- Tailwind CSS と Material-UI を組み合わせたレスポンシブ UI。
+- 画像をクライアント側で圧縮し、Firebase Storage にアップロードして投稿を作成。
+- 全投稿、カテゴリ別 (#mynewgear / #guitar / #bass)、ユーザー単位のページを Firestore のリアルタイム購読で表示。
+- 投稿ごとのコメント・いいね、ユーザーごとのいいね履歴を Firestore に保存。
+- Twitter 共有やスクロール位置リセット、モーダルベースの操作性。
 
-### `npm start`
+## 技術スタック
+- React 17 + TypeScript
+- Redux Toolkit (状態管理)
+- React Router v6
+- Tailwind CSS JIT + SCSS モジュール
+- Material-UI v4 コンポーネント
+- Firebase（Authentication / Firestore / Storage / Hosting）
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 前提条件
+- Node.js 14 または 16（React Scripts 4 の推奨互換バージョン）
+- Authentication・Firestore・Storage を有効化した Firebase プロジェクト
+- デプロイ用に Firebase CLI (`npm install -g firebase-tools`)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## セットアップ
+1. 依存関係をインストールします。
+   ```bash
+   npm install
+   ```
+2. プロジェクト直下に `.env.local` を作成し、Firebase 設定を記入します。
+   ```
+   REACT_APP_FIREBASE_APIKEY=...
+   REACT_APP_FIREBASE_DOMAIN=...
+   REACT_APP_FIREBASE_DATABASE=...
+   REACT_APP_FIREBASE_PROJECT_ID=...
+   REACT_APP_FIREBASE_STORAGE_BUCKET=...
+   REACT_APP_FIREBASE_SENDER_ID=...
+   REACT_APP_FIREBASE_APP_ID=...
+   ```
+3. 開発サーバーを起動します。
+   ```bash
+   npm start
+   ```
 
-### `npm test`
+`http://localhost:3000` でアプリが起動します。
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Firebase 設定のポイント
+- Authentication でメール / Google / Twitter 認証を有効化します。
+- Cloud Firestore に以下のコレクションを作成します。
+  - `posts`: 投稿を保存（`avatar`, `image`, `category`, `text`, `brandName`, `gearName`, `timestamp`, `username`, `userID`, `likeCount`, `likedUser`）。
+  - `posts/{postId}/comments`: 各投稿のコメントを保存。
+  - `users/{uid}/likePosts`: ユーザーがいいねした投稿 ID を保存。
+- Firebase Hosting の公開先を `build` に設定します（`firebase.json` 参照）。
 
-### `npm run build`
+## 利用可能なスクリプト
+- `npm start` - CRACO + Tailwind JIT で開発サーバーを起動。
+- `npm run build` - 本番向けに最適化されたバンドルを生成。
+- `npm test` - CRA 標準のテストランナーを実行。
+- `npm run eject` - 設定をプロジェクトに展開（不可逆）。
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ディレクトリ構成
+```
+mynewgear/
+|-- public/          # CRA の公開アセット（index.html, アイコン, OGP など）
+|-- src/
+|   |-- app/         # Redux ストアとカスタムフック
+|   |-- components/  # 再利用コンポーネント（Auth, Post, PostInput など）
+|   |-- features/    # Redux スライス
+|   |-- pages/       # ルート単位のページ（MainPage, MyPage, Terms, Privacy）
+|   |-- scss/        # SCSS モジュール
+|   |-- firebase.ts  # Firebase 初期化処理
+|   `-- brandName.json  # ブランド名リスト
+`-- craco.config.js  # CRACO + Tailwind 設定
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## デプロイ手順
+1. ビルドを作成：`npm run build`
+2. Firebase Hosting にデプロイ：`firebase deploy --only hosting`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+デプロイ前に Firebase CLI でログインしておいてください (`firebase login`)。
 
-### `npm run eject`
+## テスト
+CRA テンプレートのテスト環境が含まれています。`src/` 配下にテストを追加し、`npm test` で実行できます。
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 今後の改善アイデア
+- Firestore / Storage のセキュリティルール強化。
+- フィードへのページネーションや無限スクロール導入。
+- README の多言語対応や UI テキストのローカライズ対応。
